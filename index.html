@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --cream: #FFF8EE;
@@ -1088,7 +1089,7 @@
       <div class="card-chunky p-4 text-center" style="background:var(--sunshine);"><div class="text-4xl mb-2">🎪</div><div class="font-bold text-sm">Russell Brunson</div><div class="text-xs text-[var(--ink-soft)]">Value Ladder</div></div>
       <div class="card-chunky p-4 text-center"><div class="text-4xl mb-2">📊</div><div class="font-bold text-sm">Kondo & Okiyama</div><div class="text-xs text-[var(--ink-soft)]">Bản đồ dòng tiền</div></div>
       <div class="card-chunky p-4 text-center" style="background:var(--lavender);"><div class="text-4xl mb-2">📒</div><div class="font-bold text-sm">Mullis & Orloff</div><div class="text-xs text-[var(--ink-soft)]">Kế toán vỉa hè</div></div>
-      <div class="card-chunky p-4 text-center" style="background:var(--peach);"><div class="text-4xl mb-2">🇻🇳</div><div class="font-bold text-sm">Phạm Thành Long</div><div class="text-xs text-[var(--ink-soft)]">Bản địa hoá VN</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--peach);"><div class="text-4xl mb-2">🔥</div><div class="font-bold text-sm">Tony Robbins</div><div class="text-xs text-[var(--ink-soft)]">Massive Action</div></div>
     </div>
 
     <div class="text-center mt-12">
@@ -2297,9 +2298,9 @@ function renderResult(r) {
     <div class="card-chunky p-6 mb-6 fade-up">
       <h3 class="display text-xl font-bold mb-4 text-center">Chưa sẵn sàng? 3 lựa chọn miễn phí:</h3>
       <div class="space-y-3">
-        <button class="option-card" onclick="alert('Demo: Tải PDF báo cáo về máy')"><span class="emoji">📥</span><div><div>Tải PDF báo cáo về máy</div><div class="hint">Miễn phí, không cần cam kết</div></div></button>
-        <button class="option-card" onclick="alert('Demo: Mở link Zalo Community')"><span class="emoji">💬</span><div><div>Tham gia Zalo Community "5.000 người tăng thu nhập"</div><div class="hint">Miễn phí, học miễn phí mỗi tuần</div></div></button>
-        <button class="option-card" onclick="alert('Demo: Mở Calendly đặt lịch 1-1')"><span class="emoji">📞</span><div><div>Đặt lịch call 1-1 với chuyên gia (30 phút)</div><div class="hint">Miễn phí, giới hạn 10 slot/tuần</div></div></button>
+        <button class="option-card" onclick="downloadPDFReport(event)"><span class="emoji">📥</span><div><div>Tải PDF báo cáo cá nhân hoá về máy</div><div class="hint">Miễn phí — cá nhân hoá theo hồ sơ của bạn</div></div></button>
+        <button class="option-card" onclick="window.open('https://zalo.me/0914620033', '_blank')"><span class="emoji">💬</span><div><div>Liên hệ tư vấn chuyên gia Alan Tú</div><div class="hint">Nhắn Zalo trực tiếp — phản hồi trong 24h</div></div></button>
+        <button class="option-card" onclick="window.location.href='tel:0914620033'"><span class="emoji">📞</span><div><div>Gọi điện đặt lịch call 1-1 (30 phút)</div><div class="hint">0914 620 033 — giới hạn 10 slot/tuần</div></div></button>
       </div>
     </div>
 
@@ -2351,10 +2352,34 @@ const PAYMENT_CONFIG = {
 
 // ============================================================
 // LEAD CAPTURE ENDPOINT
-// Anh đăng ký Formspree.io (miễn phí) và dán URL vào đây
-// Hoặc dùng Google Apps Script Web App — em hướng dẫn cuối file
+// KHUYẾN NGHỊ: Google Apps Script Web App (free, unlimited)
+//   → Lưu thẳng vào Google Sheet, không giới hạn submissions
+//   → Hướng dẫn setup ở file google-apps-script.gs
+// HOẶC: Formspree.io (free 50 submissions/tháng)
 // ============================================================
-const LEAD_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID_HERE';
+const LEAD_ENDPOINT = 'YOUR_LEAD_ENDPOINT_URL';
+
+// ============================================================
+// EMAIL CONFIG — Email tự động xác nhận sau khi thanh toán
+// + Email thông báo cho Alan khi có đơn mới
+// Setup: EmailJS.com (free 200 email/tháng) → Custom SMTP
+// → Connect info@thunhap.vn từ Pavietnam → Lấy 4 keys dưới
+// Hướng dẫn từng bước ở cuối file (search "SETUP EMAIL")
+// ============================================================
+const EMAILJS_CONFIG = {
+  publicKey:        'YOUR_EMAILJS_PUBLIC_KEY',     // EmailJS Account → API Keys
+  serviceId:        'YOUR_EMAILJS_SERVICE_ID',     // Email Services → Service ID
+  templateId:       'YOUR_EMAILJS_TEMPLATE_ID',    // Customer confirmation template
+  adminTemplateId:  'YOUR_EMAILJS_ADMIN_TEMPLATE_ID', // Admin notification template
+  fromEmail:        'info@thunhap.vn',
+  fromName:         'Thu Nhập AI - Alan Tú',
+  adminEmail:       'info@thunhap.vn'              // Email anh nhận alert đơn mới
+};
+
+// Initialize EmailJS when ready (only if configured)
+if (typeof emailjs !== 'undefined' && !EMAILJS_CONFIG.publicKey.includes('YOUR_')) {
+  emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+}
 
 // ============================================================
 // PACKAGES (Value Ladder - Russell Brunson)
@@ -2652,19 +2677,30 @@ async function submitOrder() {
     userAgent: navigator.userAgent.substring(0, 200)
   };
 
-  // Try to send to lead endpoint (fail silently if not configured)
+  // Send lead to endpoint (Google Sheets / Formspree / etc)
+  // Form-encoded + no-cors maximizes compatibility with Google Apps Script
   try {
-    if (LEAD_ENDPOINT && !LEAD_ENDPOINT.includes('YOUR_FORM_ID_HERE')) {
+    if (LEAD_ENDPOINT && !LEAD_ENDPOINT.includes('YOUR_')) {
+      const formData = new URLSearchParams();
+      Object.keys(payload).forEach(key => {
+        formData.append(key, String(payload[key] ?? ''));
+      });
       await fetch(LEAD_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
+        mode: 'no-cors', // bypass CORS — works with Apps Script
+        body: formData
       });
     }
   } catch (err) {
     console.warn('[Thu Nhập AI] Lead save failed:', err);
     // Không block user - họ đã chuyển tiền rồi
   }
+
+  // Send confirmation email to customer (via EmailJS + info@thunhap.vn)
+  await sendConfirmationEmail(payload);
+
+  // Send notification to Alan (admin) about new order
+  await sendAdminNotification(payload);
 
   // Log to console for debugging
   console.log('[Thu Nhập AI] Order submitted:', payload);
@@ -2673,6 +2709,159 @@ async function submitOrder() {
   renderConfirmation();
   setScreen('screen-confirmation');
   launchConfetti();
+}
+
+// ============================================================
+// SEND CONFIRMATION EMAIL via EmailJS + Pavietnam SMTP
+// ============================================================
+async function sendConfirmationEmail(orderData) {
+  // Bail out if EmailJS not loaded or not configured
+  if (typeof emailjs === 'undefined') {
+    console.warn('[Thu Nhập AI] EmailJS library not loaded — email skipped');
+    return;
+  }
+  if (EMAILJS_CONFIG.publicKey.includes('YOUR_')) {
+    console.warn('[Thu Nhập AI] EmailJS not configured yet — email skipped (this is OK in dev)');
+    return;
+  }
+
+  // Map quadrant codes to readable Vietnamese labels
+  const quadrantLabels = {
+    E: 'Employee — Người làm công',
+    S: 'Self-employed — Tự doanh',
+    B: 'Business Owner — Chủ doanh nghiệp',
+    I: 'Investor — Nhà đầu tư',
+    MIX: 'Diversified — Đa nguồn thu'
+  };
+
+  // Email template variables — phải khớp với {{variables}} trong EmailJS template
+  const emailParams = {
+    // Recipient
+    to_name: orderData.customerName,
+    to_email: orderData.customerEmail,
+    reply_to: EMAILJS_CONFIG.fromEmail,
+    from_name: EMAILJS_CONFIG.fromName,
+
+    // Order details
+    order_code: orderData.transferCode,
+    package_name: orderData.packageName,
+    package_price: orderData.packagePrice.toLocaleString('vi-VN') + 'đ',
+    order_bump: orderData.orderBump,
+    total_amount: orderData.totalAmount.toLocaleString('vi-VN') + 'đ',
+    customer_phone: orderData.customerPhone,
+
+    // Report context (để personalize)
+    industry: orderData.industry || 'Chưa rõ',
+    quadrant: quadrantLabels[orderData.quadrant] || orderData.quadrant || 'Chưa phân loại',
+    current_income: (orderData.currentIncome || 0).toLocaleString('vi-VN') + ' triệu/tháng',
+    target_income: (orderData.targetIncome || 0).toLocaleString('vi-VN') + ' triệu/tháng',
+
+    // Contact links
+    zalo_link: 'https://zalo.me/0914620033',
+    phone_number: '0914620033',
+    website: 'https://thunhap.vn',
+
+    // Metadata
+    order_date: new Date().toLocaleString('vi-VN', { dateStyle: 'long', timeStyle: 'short' })
+  };
+
+  try {
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.templateId,
+      emailParams
+    );
+    console.log('[Thu Nhập AI] ✅ Email confirmation sent to', orderData.customerEmail, response.status);
+  } catch (err) {
+    console.error('[Thu Nhập AI] ❌ Email send failed:', err);
+    // Không block user - đơn hàng vẫn được xử lý qua Formspree
+  }
+}
+
+// ============================================================
+// SEND ADMIN NOTIFICATION (Alan nhận alert khi có đơn mới)
+// Email này gửi về info@thunhap.vn với đầy đủ data + AI insights
+// để Alan chốt deal nhanh nhất
+// ============================================================
+async function sendAdminNotification(orderData) {
+  if (typeof emailjs === 'undefined') return;
+  if (EMAILJS_CONFIG.adminTemplateId.includes('YOUR_')) {
+    console.warn('[Thu Nhập AI] Admin template not configured — skipping');
+    return;
+  }
+
+  const quadrantLabels = {
+    E: 'Employee', S: 'Self-employed', B: 'Business Owner',
+    I: 'Investor', MIX: 'Diversified'
+  };
+
+  // AI-generated insights for quick decision-making
+  const insights = [];
+  if (orderData.currentIncome >= 80) insights.push('💎 HIGH-VALUE (thu nhập 80tr+)');
+  if (orderData.currentIncome >= 150) insights.push('👑 VIP TIỀM NĂNG (150tr+)');
+  if (orderData.targetIncome >= 500) insights.push('🚀 Target cao 500tr+ → upsell VIP');
+  if (orderData.weeklyHours >= 15) insights.push('🔥 Cam kết cao (' + orderData.weeklyHours + 'h/tuần)');
+  if (orderData.package === 'mastery') insights.push('👑 Đã chọn gói cao nhất');
+  if (orderData.package === 'sprint' && orderData.currentIncome >= 80) insights.push('⚡ Có thể upsell từ Sprint → Mastery');
+  if (orderData.incomeStreams === 1) insights.push('⚠️ Chỉ 1 dòng thu — đau điểm rõ');
+  if (orderData.orderBump === 'YES') insights.push('✨ Đã mua order bump → cởi mở chi tiêu');
+
+  // Format phone for Zalo deep link
+  const cleanPhone = (orderData.customerPhone || '').replace(/\D/g, '');
+
+  const adminParams = {
+    // To
+    to_email: EMAILJS_CONFIG.adminEmail,
+    to_name: 'Alan Tú',
+    reply_to: orderData.customerEmail,
+
+    // Subject helper
+    package_emoji: orderData.package === 'mastery' ? '👑' : (orderData.package === 'sprint' ? '🚀' : '🌱'),
+
+    // Customer
+    customer_name: orderData.customerName,
+    customer_email: orderData.customerEmail,
+    customer_phone: orderData.customerPhone,
+
+    // Order
+    order_code: orderData.transferCode,
+    package_name: orderData.packageName,
+    total_amount: orderData.totalAmount.toLocaleString('vi-VN') + 'đ',
+    order_bump: orderData.orderBump,
+    order_date: new Date().toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' }),
+
+    // Report context — full hồ sơ để Alan đọc trước khi gọi
+    industry: orderData.industry || 'N/A',
+    experience: orderData.experience || 'N/A',
+    quadrant: quadrantLabels[orderData.quadrant] || orderData.quadrant || 'N/A',
+    current_income: (orderData.currentIncome || 0).toLocaleString('vi-VN') + ' triệu/tháng',
+    target_income: (orderData.targetIncome || 0).toLocaleString('vi-VN') + ' triệu/tháng',
+    income_sources: orderData.incomeSources || 'N/A',
+    rich_life_goals: orderData.richLifeGoals || 'N/A',
+    main_blocker: orderData.mainBlocker || 'N/A',
+    income_streams: String(orderData.incomeStreams || 0),
+    weekly_hours: (orderData.weeklyHours || 0) + ' giờ/tuần',
+    assets: orderData.assets || 'N/A',
+
+    // AI insights — prebuilt action recommendations
+    ai_insights: insights.length ? insights.join(' · ') : 'Khách hàng tiêu chuẩn',
+
+    // Quick action links cho Alan
+    zalo_link: cleanPhone ? `https://zalo.me/${cleanPhone}` : 'https://zalo.me/0914620033',
+    call_link: cleanPhone ? `tel:${cleanPhone}` : 'tel:0914620033',
+    email_link: `mailto:${orderData.customerEmail}`
+  };
+
+  try {
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.adminTemplateId,
+      adminParams
+    );
+    console.log('[Thu Nhập AI] ✅ Admin notification sent', response.status);
+  } catch (err) {
+    console.error('[Thu Nhập AI] ❌ Admin notification failed:', err);
+  }
 }
 
 function renderConfirmation() {
@@ -2739,11 +2928,15 @@ async function confirmVIPPayment() {
   };
 
   try {
-    if (LEAD_ENDPOINT && !LEAD_ENDPOINT.includes('YOUR_FORM_ID_HERE')) {
+    if (LEAD_ENDPOINT && !LEAD_ENDPOINT.includes('YOUR_')) {
+      const formData = new URLSearchParams();
+      Object.keys(payload).forEach(key => {
+        formData.append(key, String(payload[key] ?? ''));
+      });
       await fetch(LEAD_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
+        mode: 'no-cors',
+        body: formData
       });
     }
   } catch (err) {
@@ -2812,6 +3005,185 @@ function startCountdown() {
   }
   update();
   countdownInterval = setInterval(update, 1000);
+}
+
+// ============================================================
+// PDF DOWNLOAD ENGINE — Personalized Report
+// Lazy-loads html2pdf library only when needed (saves bandwidth)
+// ============================================================
+async function loadHtml2Pdf() {
+  if (window.html2pdf) return;
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Không tải được thư viện PDF'));
+    document.head.appendChild(script);
+  });
+}
+
+async function downloadPDFReport(event) {
+  const btn = event.currentTarget;
+  if (!btn || btn.dataset.loading === 'true') return;
+
+  const originalHTML = btn.innerHTML;
+  btn.dataset.loading = 'true';
+  btn.style.pointerEvents = 'none';
+  btn.style.opacity = '0.75';
+
+  const setBtnState = (emoji, title, hint) => {
+    btn.innerHTML = `<span class="emoji">${emoji}</span><div><div>${title}</div><div class="hint">${hint}</div></div>`;
+  };
+
+  try {
+    // Step 1: Lazy-load library
+    setBtnState('⏳', 'Đang tải thư viện PDF...', 'Lần đầu mất ~3 giây');
+    await loadHtml2Pdf();
+
+    // Step 2: Build PDF content
+    setBtnState('📝', 'Đang tạo PDF cá nhân hoá...', 'Vui lòng chờ 5-10 giây');
+
+    const resultContent = document.getElementById('result-content');
+    if (!resultContent) throw new Error('Không tìm thấy nội dung báo cáo');
+
+    // Clone content
+    const clone = resultContent.cloneNode(true);
+
+    // Strip animations so html2canvas captures clean state
+    clone.querySelectorAll('.fade-up, .fade-up-1, .fade-up-2, .fade-up-3, .fade-up-4').forEach(el => {
+      el.classList.remove('fade-up', 'fade-up-1', 'fade-up-2', 'fade-up-3', 'fade-up-4');
+      el.style.opacity = '1';
+      el.style.animation = 'none';
+    });
+
+    // Remove promotional / interactive sections from PDF
+    // 1. Dark CTA box (Income Sprint) — keep report clean, no ads in PDF
+    Array.from(clone.querySelectorAll('.card-chunky')).forEach(card => {
+      const styleAttr = card.getAttribute('style') || '';
+      if (styleAttr.includes('var(--ink)') && /Income Sprint|Đăng ký|Nâng cấp/i.test(card.textContent)) {
+        card.remove();
+      }
+    });
+
+    // 2. Exit escape box (Chưa sẵn sàng?)
+    Array.from(clone.querySelectorAll('.card-chunky')).forEach(card => {
+      if (/Chưa sẵn sàng/i.test(card.textContent)) card.remove();
+    });
+
+    // 3. Remove any remaining buttons (restart, CTAs)
+    clone.querySelectorAll('button, .btn-primary, .btn-ghost, .btn-secondary').forEach(el => el.remove());
+
+    // Build PDF wrapper with custom header + footer
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+      background: #FFF8EE;
+      padding: 48px 40px;
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      width: 800px;
+      color: #1A1510;
+      box-sizing: border-box;
+    `;
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const customerName = state.data.name || 'Bạn đọc';
+
+    // Header
+    const header = document.createElement('div');
+    header.style.cssText = 'text-align:center; padding-bottom:24px; border-bottom:3px solid #1A1510; margin-bottom:32px;';
+    header.innerHTML = `
+      <div style="display:inline-flex; align-items:center; gap:14px;">
+        <div style="width:52px;height:52px;background:#FF5B4E;border:3px solid #1A1510;border-radius:14px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:24px;box-shadow:3px 3px 0 #1A1510;">T</div>
+        <div style="text-align:left;">
+          <div style="font-family:'Fraunces',serif;font-weight:900;font-size:26px;line-height:1;">Thu Nhập AI</div>
+          <div style="font-size:12px;color:#4A3F2E;margin-top:4px;letter-spacing:0.04em;">BÁO CÁO THU NHẬP CÁ NHÂN 2026</div>
+        </div>
+      </div>
+      <div style="margin-top:18px; font-size:12px; color:#4A3F2E;">
+        Dành riêng cho: <b style="color:#1A1510;">${customerName}</b> &nbsp;·&nbsp; Ngày tạo: <b>${dateStr}</b>
+      </div>
+    `;
+
+    // Footer
+    const footer = document.createElement('div');
+    footer.style.cssText = 'margin-top:48px; padding-top:24px; border-top:3px solid #1A1510; text-align:center;';
+    footer.innerHTML = `
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:800;margin-bottom:14px;">
+        💝 Cảm ơn ${customerName} đã tin tưởng Thu Nhập AI
+      </div>
+      <div style="padding:22px 26px; background:white; border:3px solid #1A1510; border-radius:18px; margin:16px auto; max-width:520px; box-shadow:5px 5px 0 #1A1510;">
+        <div style="font-weight:800; font-size:15px; margin-bottom:8px;">💬 Cần tư vấn riêng? Liên hệ trực tiếp:</div>
+        <div style="font-size:13px; color:#4A3F2E; margin-bottom:10px;"><b style="color:#1A1510;">Alan Tú</b> — Chuyên gia Tư vấn Thu Nhập &amp; Chiến lược Cá nhân</div>
+        <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:900; color:#FF5B4E;">📞 0914 620 033</div>
+        <div style="font-size:12px; color:#4A3F2E; margin-top:4px;">(Zalo · Hotline · Tư vấn 1-1)</div>
+      </div>
+      <div style="margin-top:20px; font-size:10px; color:#4A3F2E; line-height:1.5;">
+        © 2026 Thu Nhập AI · Báo cáo này là phân tích chiến lược cá nhân hoá.<br>
+        Không phải lời khuyên đầu tư cá nhân · Tuân thủ Nghị định 13/2023 về bảo vệ dữ liệu cá nhân.
+      </div>
+    `;
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(clone);
+    wrapper.appendChild(footer);
+
+    // Attach off-screen so html2canvas can render
+    wrapper.style.position = 'fixed';
+    wrapper.style.left = '-9999px';
+    wrapper.style.top = '0';
+    document.body.appendChild(wrapper);
+
+    // Generate PDF
+    const safeName = customerName.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-À-ỹ]/g, '');
+    const filename = `ThuNhapAI-BaoCao-${safeName || 'BanDoc'}.pdf`;
+
+    const opt = {
+      margin: [8, 8, 8, 8],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.96 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#FFF8EE',
+        logging: false,
+        windowWidth: 800
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait',
+        compress: true
+      },
+      pagebreak: {
+        mode: ['css', 'legacy'],
+        avoid: ['.blocker-card', '.phase-card', '.week-card', '.card-chunky']
+      }
+    };
+
+    await html2pdf().set(opt).from(wrapper).save();
+
+    // Cleanup
+    document.body.removeChild(wrapper);
+
+    // Success state
+    setBtnState('✅', 'Đã tải PDF thành công!', 'Kiểm tra folder Downloads trên máy');
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.pointerEvents = '';
+      btn.style.opacity = '';
+      btn.dataset.loading = 'false';
+    }, 3500);
+
+  } catch (err) {
+    console.error('[PDF Download] Failed:', err);
+    setBtnState('❌', 'Có lỗi khi tạo PDF', 'Thử lại hoặc gọi Alan: 0914 620 033');
+    setTimeout(() => {
+      btn.innerHTML = originalHTML;
+      btn.style.pointerEvents = '';
+      btn.style.opacity = '';
+      btn.dataset.loading = 'false';
+    }, 4000);
+  }
 }
 </script>
 </body>
