@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thu Nhập AI — Khám phá lộ trình bứt phá thu nhập của bạn</title>
+<meta name="description" content="Bài kiểm tra Thu Nhập 5 phút. AI phân tích vị trí hiện tại + lộ trình 90 ngày cá nhân hoá để bứt phá thu nhập 2-5 lần. Hoàn toàn miễn phí.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8EE;
+    --cream-dark: #F5EBD6;
+    --coral: #FF5B4E;
+    --coral-dark: #E8443A;
+    --forest: #1F4B36;
+    --forest-light: #2D6B4F;
+    --sunshine: #FFC043;
+    --peach: #FFE5D4;
+    --lavender: #E8D5F2;
+    --ink: #1A1510;
+    --ink-soft: #4A3F2E;
+  }
+  * { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
+  .display { font-family: 'Fraunces', ui-serif, Georgia, serif; font-optical-sizing: auto; font-variation-settings: "SOFT" 50, "WONK" 1; }
+  body { background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+  /* Grid background */
+  .grid-bg {
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(26,21,16,0.08) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  /* Decorative squiggle */
+  .squiggle-underline {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'><path d='M0 6 Q 25 0 50 6 T 100 6 T 150 6 T 200 6' stroke='%23FF5B4E' stroke-width='4' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: 100% 0.35em;
+    padding-bottom: 0.15em;
+  }
+
+  /* Animations */
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(var(--r,0deg)); } 50% { transform: translateY(-10px) rotate(var(--r,0deg)); } }
+  @keyframes wiggle { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pop { 0% { transform: scale(0.9); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes spin-slow { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(255,91,78,0.5); } 70% { box-shadow: 0 0 0 16px rgba(255,91,78,0); } 100% { box-shadow: 0 0 0 0 rgba(255,91,78,0); } }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  @keyframes check-in { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+  .float { animation: float 4s ease-in-out infinite; }
+  .float-slow { animation: float 6s ease-in-out infinite; }
+  .wiggle { animation: wiggle 2.5s ease-in-out infinite; display: inline-block; }
+  .fade-up { animation: fadeUp 0.6s ease-out forwards; opacity: 0; }
+  .fade-up-1 { animation-delay: 0.1s; }
+  .fade-up-2 { animation-delay: 0.25s; }
+  .fade-up-3 { animation-delay: 0.4s; }
+  .fade-up-4 { animation-delay: 0.55s; }
+  .pop { animation: pop 0.5s ease-out forwards; }
+  .spin-slow { animation: spin-slow 8s linear infinite; }
+
+  /* Chunky card style — signature aesthetic */
+  .card-chunky {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: 6px 6px 0 var(--ink);
+    transition: all 0.2s ease;
+  }
+  .card-chunky:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--ink);
+  }
+
+  /* Sticker badge */
+  .sticker {
+    display: inline-block;
+    padding: 8px 18px;
+    background: var(--sunshine);
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--ink);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+  }
+
+  /* Primary button */
+  .btn-primary {
+    background: var(--coral);
+    color: white;
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 18px 36px;
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: 5px 5px 0 var(--ink);
+    transition: all 0.15s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+  .btn-primary:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+
+  .btn-secondary {
+    background: white;
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 14px 28px;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--ink); background: var(--peach); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 2px dashed var(--ink-soft);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-ghost:hover { background: var(--cream-dark); }
+
+  /* Option card */
+  .option-card {
+    background: white;
+    border: 2.5px solid var(--ink);
+    border-radius: 18px;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 4px 4px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .option-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); background: var(--peach); }
+  .option-card.selected { background: var(--sunshine); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+  .option-card.selected::after { content: "✓"; margin-left: auto; font-size: 22px; font-weight: 900; animation: check-in 0.3s ease-out; }
+  .option-card .emoji { font-size: 26px; }
+  .option-card .hint { font-size: 13px; font-weight: 400; color: var(--ink-soft); }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 14px;
+    background: white;
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--coral), var(--sunshine));
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    border-right: 2px solid var(--ink);
+  }
+
+  /* Input */
+  .input-chunky {
+    width: 100%;
+    padding: 18px 22px;
+    border: 2.5px solid var(--ink);
+    border-radius: 18px;
+    background: white;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 4px 4px 0 var(--ink);
+    outline: none;
+    transition: all 0.15s;
+  }
+  .input-chunky:focus { background: var(--peach); transform: translate(-1px,-1px); box-shadow: 6px 6px 0 var(--ink); }
+
+  /* Screen container */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: block; animation: fadeUp 0.5s ease-out; }
+
+  /* Loading step */
+  .loading-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    background: white;
+    border: 2.5px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    opacity: 0.3;
+    transition: all 0.4s ease;
+    font-weight: 600;
+  }
+  .loading-step.active { opacity: 1; transform: translateX(6px); background: var(--sunshine); }
+  .loading-step.done { opacity: 1; background: #D4F4DD; }
+  .loading-step.done .step-icon::before { content: "✓"; }
+  .step-icon {
+    width: 28px; height: 28px;
+    background: var(--cream);
+    border: 2.5px solid var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .loading-step.active .step-icon { background: white; animation: pulse-ring 1.5s infinite; }
+
+  /* Decorative doodles */
+  .doodle { position: absolute; pointer-events: none; z-index: 0; }
+
+  /* Result section styling */
+  .report-section { scroll-margin-top: 24px; }
+
+  .big-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-variation-settings: "SOFT" 50, "WONK" 1;
+    line-height: 0.9;
+  }
+
+  .quadrant-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .quadrant-cell {
+    background: var(--cream);
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .quadrant-cell.active {
+    background: var(--sunshine);
+  }
+  .quadrant-cell.active::after {
+    content: "👉 BẠN";
+    position: absolute;
+    top: 6px; right: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    background: var(--coral);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 12px; height: 12px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: confetti-fall 3s ease-out forwards;
+  }
+  @keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Rank bar */
+  .rank-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    font-weight: 600;
+  }
+  .rank-bar-bg {
+    height: 22px;
+    background: var(--cream-dark);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+  }
+  .rank-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--forest-light), var(--sunshine), var(--coral));
+    border-right: 2px solid var(--ink);
+  }
+  .rank-row.you .rank-bar-fill { background: var(--coral); box-shadow: 0 0 0 3px var(--sunshine) inset; }
+  .rank-row.you { background: var(--sunshine); padding: 10px 12px; border: 2.5px solid var(--ink); border-radius: 14px; box-shadow: 3px 3px 0 var(--ink); margin: 6px 0; }
+
+  /* Accordion / blocker card */
+  .blocker-card {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 5px 5px 0 var(--ink);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .blocker-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px; height: 100%;
+    background: var(--coral);
+  }
+
+  /* Week card in roadmap */
+  .week-card {
+    background: var(--cream);
+    border: 2.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .week-badge {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    background: var(--sunshine);
+    border: 2.5px solid var(--ink);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    box-shadow: 2px 2px 0 var(--ink);
+    font-size: 12px;
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* Phase card */
+  .phase-card {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 22px;
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .phase-card.p1 { background: #FFF4E0; }
+  .phase-card.p2 { background: #E8F5E9; }
+  .phase-card.p3 { background: #F3E8FF; }
+
+  @media (max-width: 768px) {
+    .display-xl { font-size: 44px !important; line-height: 1.05 !important; }
+    .btn-primary { padding: 16px 28px; font-size: 16px; }
+    .option-card { padding: 14px 18px; font-size: 15px; }
+    .quadrant-cell { padding: 16px 8px; min-height: 100px; font-size: 14px; }
+  }
+
+  /* ============================================================ */
+  /* UTILITY CLASSES — replacing Tailwind CDN (production-ready)  */
+  /* ============================================================ */
+
+  /* Containers */
+  .max-w-6xl { max-width: 72rem; }
+  .max-w-5xl { max-width: 64rem; }
+  .max-w-3xl { max-width: 48rem; }
+  .max-w-2xl { max-width: 42rem; }
+  .mx-auto { margin-left: auto; margin-right: auto; }
+
+  /* Display */
+  .flex { display: flex; }
+  .inline-flex { display: inline-flex; }
+  .inline-block { display: inline-block; }
+  .grid { display: grid; }
+  .block { display: block; }
+  .hidden { display: none; }
+
+  /* Position */
+  .relative { position: relative; }
+  .absolute { position: absolute; }
+  .fixed { position: fixed; }
+  .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+  .z-10 { z-index: 10; }
+
+  /* Flex */
+  .flex-1 { flex: 1 1 0%; }
+  .flex-col { flex-direction: column; }
+  .flex-wrap { flex-wrap: wrap; }
+  .flex-shrink-0 { flex-shrink: 0; }
+  .items-center { align-items: center; }
+  .items-start { align-items: flex-start; }
+  .items-end { align-items: flex-end; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .justify-end { justify-content: flex-end; }
+
+  /* Grid */
+  .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  /* Gap */
+  .gap-2 { gap: 0.5rem; }
+  .gap-3 { gap: 0.75rem; }
+  .gap-4 { gap: 1rem; }
+  .gap-6 { gap: 1.5rem; }
+  .gap-10 { gap: 2.5rem; }
+  .gap-14 { gap: 3.5rem; }
+
+  /* Space between */
+  .space-y-1 > * + * { margin-top: 0.25rem; }
+  .space-y-2 > * + * { margin-top: 0.5rem; }
+  .space-y-3 > * + * { margin-top: 0.75rem; }
+  .space-y-4 > * + * { margin-top: 1rem; }
+  .-space-x-3 > * + * { margin-left: -0.75rem; }
+
+  /* Padding */
+  .p-4 { padding: 1rem; }
+  .p-5 { padding: 1.25rem; }
+  .p-6 { padding: 1.5rem; }
+  .p-8 { padding: 2rem; }
+  .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+  .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+  .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+  .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+  .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+  .pt-3 { padding-top: 0.75rem; }
+  .pt-12 { padding-top: 3rem; }
+  .pb-20 { padding-bottom: 5rem; }
+
+  /* Margin */
+  .mt-1 { margin-top: 0.25rem; }
+  .mt-2 { margin-top: 0.5rem; }
+  .mt-3 { margin-top: 0.75rem; }
+  .mt-4 { margin-top: 1rem; }
+  .mt-6 { margin-top: 1.5rem; }
+  .mt-8 { margin-top: 2rem; }
+  .mt-10 { margin-top: 2.5rem; }
+  .mt-12 { margin-top: 3rem; }
+  .mb-1 { margin-bottom: 0.25rem; }
+  .mb-2 { margin-bottom: 0.5rem; }
+  .mb-3 { margin-bottom: 0.75rem; }
+  .mb-4 { margin-bottom: 1rem; }
+  .mb-5 { margin-bottom: 1.25rem; }
+  .mb-6 { margin-bottom: 1.5rem; }
+  .mb-8 { margin-bottom: 2rem; }
+  .mb-10 { margin-bottom: 2.5rem; }
+  .mb-12 { margin-bottom: 3rem; }
+  .ml-auto { margin-left: auto; }
+
+  /* Typography */
+  .text-xs { font-size: 0.75rem; line-height: 1rem; }
+  .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+  .text-base { font-size: 1rem; line-height: 1.5rem; }
+  .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+  .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+  .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+  .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+  .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+  .text-5xl { font-size: 3rem; line-height: 1; }
+  .text-6xl { font-size: 3.75rem; line-height: 1; }
+  .text-7xl { font-size: 4.5rem; line-height: 1; }
+  .font-black { font-weight: 900; }
+  .font-bold { font-weight: 700; }
+  .font-semibold { font-weight: 600; }
+  .font-medium { font-weight: 500; }
+  .text-center { text-align: center; }
+  .text-left { text-align: left; }
+  .uppercase { text-transform: uppercase; }
+  .tracking-wide { letter-spacing: 0.025em; }
+  .leading-tight { line-height: 1.25; }
+  .leading-relaxed { line-height: 1.625; }
+  .leading-\[0\.95\] { line-height: 0.95; }
+  .leading-\[1\.05\] { line-height: 1.05; }
+
+  /* Colors — text */
+  .text-white { color: #fff; }
+  .text-\[var\(--coral\)\] { color: var(--coral); }
+  .text-\[var\(--ink\)\] { color: var(--ink); }
+  .text-\[var\(--ink-soft\)\] { color: var(--ink-soft); }
+  .text-\[var\(--forest\)\] { color: var(--forest); }
+  .text-\[var\(--sunshine\)\] { color: var(--sunshine); }
+
+  /* Colors — background */
+  .bg-white { background-color: #fff; }
+  .bg-\[var\(--coral\)\] { background-color: var(--coral); }
+  .bg-\[var\(--ink\)\] { background-color: var(--ink); }
+  .bg-\[var\(--sunshine\)\] { background-color: var(--sunshine); }
+  .bg-\[var\(--forest\)\] { background-color: var(--forest); }
+  .bg-\[var\(--peach\)\] { background-color: var(--peach); }
+  .bg-\[var\(--lavender\)\] { background-color: var(--lavender); }
+  .bg-\[var\(--cream\)\] { background-color: var(--cream); }
+  .bg-\[var\(--cream-dark\)\] { background-color: var(--cream-dark); }
+
+  /* Colors — border */
+  .border-\[var\(--ink\)\] { border-color: var(--ink); }
+  .border-\[var\(--ink-soft\)\] { border-color: var(--ink-soft); }
+
+  /* Sizing */
+  .w-6 { width: 1.5rem; }
+  .w-10 { width: 2.5rem; }
+  .w-11 { width: 2.75rem; }
+  .w-28 { width: 7rem; }
+  .w-full { width: 100%; }
+  .h-6 { height: 1.5rem; }
+  .h-10 { height: 2.5rem; }
+  .h-11 { height: 2.75rem; }
+  .h-28 { height: 7rem; }
+  .min-h-screen { min-height: 100vh; }
+
+  /* Borders */
+  .border { border-width: 1px; border-style: solid; }
+  .border-2 { border-width: 2px; border-style: solid; }
+  .border-t-2 { border-top-width: 2px; border-top-style: solid; }
+  .border-dashed { border-style: dashed; }
+  .border-\[2\.5px\] { border-width: 2.5px; border-style: solid; }
+  .border-\[3px\] { border-width: 3px; border-style: solid; }
+  .border-\[5px\] { border-width: 5px; border-style: solid; }
+  .rounded-xl { border-radius: 0.75rem; }
+  .rounded-2xl { border-radius: 1rem; }
+  .rounded-full { border-radius: 9999px; }
+
+  /* Opacity */
+  .opacity-70 { opacity: 0.7; }
+  .opacity-80 { opacity: 0.8; }
+
+  /* Overflow */
+  .overflow-hidden { overflow: hidden; }
+  .overflow-x-hidden { overflow-x: hidden; }
+
+  /* Decoration */
+  s, .line-through { text-decoration: line-through; }
+
+  /* Responsive — md: prefix (≥768px) */
+  @media (min-width: 768px) {
+    .md\:flex { display: flex; }
+    .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .md\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .md\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .md\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .md\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+    .md\:text-5xl { font-size: 3rem; line-height: 1; }
+    .md\:text-7xl { font-size: 4.5rem; line-height: 1; }
+  }
+
+  /* Hover */
+  .hover\:text-\[var\(--coral\)\]:hover { color: var(--coral); }
+
+  /* ============================================================ */
+  /* PRICING / CHECKOUT / CONFIRMATION                            */
+  /* ============================================================ */
+
+  .pricing-card {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: 6px 6px 0 var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .pricing-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0 var(--ink);
+  }
+  .pricing-card.selected {
+    background: var(--peach);
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0 var(--ink);
+  }
+  .pricing-card.popular {
+    background: var(--sunshine);
+    transform: scale(1.03);
+  }
+  .pricing-card.popular.selected {
+    background: var(--sunshine);
+    outline: 4px solid var(--coral);
+    outline-offset: 4px;
+  }
+  .pricing-badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--coral);
+    color: white;
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    flex: 1;
+  }
+  .pricing-features li {
+    padding: 7px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+  }
+  .pricing-features li.included::before { content: "✅"; flex-shrink: 0; font-size: 14px; }
+  .pricing-features li.not-included {
+    color: var(--ink-soft);
+    opacity: 0.55;
+    text-decoration: line-through;
+  }
+  .pricing-features li.not-included::before { content: "❌"; flex-shrink: 0; }
+
+  /* Order bump */
+  .order-bump-card {
+    background: #FFFBEB;
+    border: 3px dashed var(--ink);
+    border-radius: 20px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .order-bump-card:hover { background: #FFF3C4; }
+  .order-bump-card.selected {
+    background: var(--sunshine);
+    border-style: solid;
+    box-shadow: 5px 5px 0 var(--ink);
+    transform: translate(-1px, -1px);
+  }
+  .bump-checkbox {
+    width: 36px; height: 36px;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 900;
+    font-size: 22px;
+  }
+  .order-bump-card.selected .bump-checkbox::after { content: "✓"; }
+
+  /* Urgency bar */
+  .urgency-bar {
+    background: var(--ink);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 999px;
+    text-align: center;
+    font-weight: 700;
+    border: 3px solid var(--coral);
+    box-shadow: 4px 4px 0 var(--coral);
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+  .urgency-bar .timer {
+    color: var(--sunshine);
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin-left: 8px;
+  }
+
+  /* Social proof */
+  .social-proof-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 10px 20px;
+    box-shadow: 4px 4px 0 var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* QR container */
+  .qr-container {
+    background: white;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 5px 5px 0 var(--ink);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .qr-image {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  .qr-skeleton {
+    padding: 80px 20px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  /* Bank info */
+  .bank-info {
+    background: white;
+    border: 2.5px solid var(--ink);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 4px 4px 0 var(--ink);
+    margin-bottom: 16px;
+  }
+  .bank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px dashed var(--cream-dark);
+    gap: 12px;
+  }
+  .bank-row:last-child { border-bottom: none; }
+  .bank-row .label { color: var(--ink-soft); flex-shrink: 0; }
+  .bank-row .value { font-weight: 700; text-align: right; }
+  .bank-row .value.highlight {
+    background: var(--sunshine);
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+  }
+  .bank-row .copy-btn {
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 6px;
+  }
+  .bank-row .copy-btn:active { background: var(--coral); }
+
+  /* Instruction box */
+  .instruction-box {
+    background: white;
+    border: 2.5px dashed var(--ink);
+    border-radius: 16px;
+    padding: 18px 22px;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .instruction-box ol {
+    margin: 10px 0 0 0;
+    padding-left: 22px;
+  }
+  .instruction-box ol li {
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  /* Form */
+  .form-label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .form-field { margin-bottom: 16px; }
+
+  /* Order summary */
+  .order-summary {
+    background: var(--cream);
+    border: 2.5px solid var(--ink);
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-top: 20px;
+  }
+  .order-summary h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .order-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+  .order-row.total {
+    font-size: 16px;
+    font-weight: 800;
+    border-top: 2px dashed var(--ink-soft);
+    padding-top: 12px;
+    margin-top: 8px;
+  }
+  .order-row.total .amount {
+    font-family: 'Fraunces', serif;
+    color: var(--coral);
+    font-size: 26px;
+    font-weight: 900;
+  }
+  .trust-badges {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 2px dashed var(--cream-dark);
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  /* Upsell box */
+  .upsell-box {
+    background: var(--sunshine);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    padding: 32px 28px;
+    box-shadow: 6px 6px 0 var(--ink);
+    position: relative;
+    text-align: left;
+  }
+  .upsell-box::before {
+    content: "⚡ CHỈ HÔM NAY";
+    position: absolute;
+    top: -14px;
+    right: 20px;
+    background: var(--coral);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 2.5px solid var(--ink);
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: 2px 2px 0 var(--ink);
+    transform: rotate(3deg);
+    white-space: nowrap;
+  }
+
+  /* Testimonial card */
+  .testimonial-card {
+    background: white;
+    border: 2.5px solid var(--ink);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .testimonial-card .stars { color: #FFC043; font-size: 16px; margin-bottom: 8px; }
+  .testimonial-card .quote { font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+  .testimonial-card .author { display: flex; align-items: center; gap: 10px; }
+  .testimonial-card .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2.5px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+  }
+  .testimonial-card .name-info { font-size: 12px; }
+  .testimonial-card .name-info b { display: block; font-size: 14px; }
+
+  /* Guarantee badge */
+  .guarantee-badge {
+    background: var(--forest);
+    color: white;
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    padding: 24px 32px;
+    text-align: center;
+    box-shadow: 6px 6px 0 var(--ink);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .guarantee-badge .shield { font-size: 56px; margin-bottom: 8px; }
+
+  @media (max-width: 768px) {
+    .pricing-card.popular { transform: scale(1); }
+    .upsell-box::before { right: 10px; font-size: 10px; }
+  }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(26, 21, 16, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .modal-overlay.active {
+    display: flex;
+    animation: fadeUp 0.3s ease-out;
+  }
+  .modal-card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    padding: 32px 28px;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: 8px 8px 0 var(--coral);
+    position: relative;
+    max-height: 92vh;
+    overflow-y: auto;
+    animation: pop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border: 2.5px solid var(--ink);
+    background: white;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    padding: 0;
+    color: var(--ink);
+    z-index: 2;
+  }
+  .modal-close:hover {
+    background: var(--coral);
+    color: white;
+    transform: rotate(90deg);
+  }
+</style>
+</head>
+<body class="grid-bg">
+
+<!-- Decorative floating doodles -->
+<svg class="doodle float" style="top:80px; left:5%; --r:-12deg;" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="#FFC043" stroke="#1A1510" stroke-width="3"/><text x="30" y="38" text-anchor="middle" font-size="22" font-weight="900">₫</text></svg>
+<svg class="doodle float-slow" style="top:120px; right:8%; --r:15deg;" width="70" height="70" viewBox="0 0 70 70"><path d="M10 35 Q 35 5, 60 35 T 10 35" fill="#FF5B4E" stroke="#1A1510" stroke-width="3"/></svg>
+<svg class="doodle float" style="top:260px; left:12%; --r:8deg;" width="40" height="40" viewBox="0 0 40 40"><polygon points="20,4 25,16 37,17 28,25 31,37 20,30 9,37 12,25 3,17 15,16" fill="#E8D5F2" stroke="#1A1510" stroke-width="3"/></svg>
+
+<!-- ============ SCREEN: LANDING ============ -->
+<div class="screen active" id="screen-landing">
+  <nav class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center relative z-10">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 bg-[var(--coral)] border-[3px] border-[var(--ink)] rounded-2xl flex items-center justify-center text-white font-black text-xl" style="box-shadow:3px 3px 0 var(--ink);">T</div>
+      <span class="display font-bold text-xl">Thu Nhập AI</span>
+    </div>
+    <div class="hidden md:flex gap-6 font-semibold text-sm">
+      <a href="#how" class="hover:text-[var(--coral)]">Cách hoạt động</a>
+      <a href="#council" class="hover:text-[var(--coral)]">Hội đồng chuyên gia</a>
+    </div>
+  </nav>
+
+  <section class="max-w-5xl mx-auto px-6 pt-12 pb-20 text-center relative z-10">
+    <div class="sticker fade-up fade-up-1">🏆 Báo cáo Thu nhập Việt Nam 2026</div>
+
+    <h1 class="display display-xl text-6xl md:text-7xl font-black mt-8 mb-6 leading-[0.95] fade-up fade-up-2">
+      Bạn đang ở <span class="squiggle-underline">top bao nhiêu %</span><br>
+      thu nhập của<br>người Việt?
+    </h1>
+
+    <p class="text-lg md:text-xl text-[var(--ink-soft)] max-w-2xl mx-auto mb-10 leading-relaxed fade-up fade-up-3">
+      Làm bài Kiểm tra Thu Nhập <b>5 phút</b> — AI sẽ phân tích vị trí hiện tại của bạn,
+      chỉ ra <b>3 điểm nghẽn tài chính cá nhân</b>, và thiết kế <b>lộ trình 90 ngày</b>
+      để bứt phá thu nhập <b>2-5 lần</b>. Hoàn toàn miễn phí.
+    </p>
+
+    <!-- Stat boxes -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10 fade-up fade-up-3">
+      <div class="card-chunky p-5 text-center"><div class="big-number text-4xl text-[var(--coral)]">52K+</div><div class="text-xs font-semibold mt-1 text-[var(--ink-soft)]">Người Việt đã tham gia</div></div>
+      <div class="card-chunky p-5 text-center" style="background:var(--peach);"><div class="big-number text-4xl text-[var(--forest)]">63</div><div class="text-xs font-semibold mt-1 text-[var(--ink-soft)]">Ngành nghề benchmark</div></div>
+      <div class="card-chunky p-5 text-center" style="background:var(--lavender);"><div class="big-number text-4xl">AI</div><div class="text-xs font-semibold mt-1 text-[var(--ink-soft)]">Phân tích cá nhân hoá</div></div>
+      <div class="card-chunky p-5 text-center" style="background:var(--sunshine);"><div class="big-number text-4xl">7</div><div class="text-xs font-semibold mt-1 text-[var(--ink-soft)]">Framework chuyên gia</div></div>
+    </div>
+
+    <button class="btn-primary text-xl fade-up fade-up-4" onclick="goToLevel()">
+      <span>Bắt đầu kiểm tra miễn phí</span>
+      <span style="font-size:24px;">→</span>
+    </button>
+
+    <div class="flex flex-wrap justify-center gap-6 mt-6 text-sm font-semibold text-[var(--ink-soft)] fade-up fade-up-4">
+      <span>⏱️ ~5 phút</span>
+      <span>📊 Báo cáo chi tiết</span>
+      <span>🔒 Bảo mật theo Nghị định 13</span>
+      <span>💯 100% miễn phí</span>
+    </div>
+
+    <!-- Social proof -->
+    <div class="mt-12 fade-up fade-up-4">
+      <p class="text-sm text-[var(--ink-soft)] mb-3">🔥 <b>1.247 người</b> đang làm bài kiểm tra ngay lúc này</p>
+      <div class="flex justify-center -space-x-3">
+        <div class="w-10 h-10 rounded-full border-[3px] border-[var(--ink)] bg-[var(--coral)] flex items-center justify-center text-white font-black">M</div>
+        <div class="w-10 h-10 rounded-full border-[3px] border-[var(--ink)] bg-[var(--sunshine)] flex items-center justify-center font-black">H</div>
+        <div class="w-10 h-10 rounded-full border-[3px] border-[var(--ink)] bg-[var(--forest)] flex items-center justify-center text-white font-black">N</div>
+        <div class="w-10 h-10 rounded-full border-[3px] border-[var(--ink)] bg-[var(--lavender)] flex items-center justify-center font-black">T</div>
+        <div class="w-10 h-10 rounded-full border-[3px] border-[var(--ink)] bg-[var(--peach)] flex items-center justify-center font-black">+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="display text-4xl md:text-5xl font-black text-center mb-12">
+      Cách hoạt động <span class="wiggle">✨</span>
+    </h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card-chunky p-6" style="background:var(--peach);">
+        <div class="text-5xl mb-3">📝</div>
+        <div class="sticker mb-3" style="background:var(--coral); color:white;">Bước 1</div>
+        <h3 class="display text-2xl font-bold mb-2">Trả lời 12 câu hỏi</h3>
+        <p class="text-sm text-[var(--ink-soft)]">Về ngành nghề, thu nhập, mục tiêu sống, điểm nghẽn — mỗi câu chỉ mất 15 giây.</p>
+      </div>
+      <div class="card-chunky p-6" style="background:var(--lavender);">
+        <div class="text-5xl mb-3">🧠</div>
+        <div class="sticker mb-3" style="background:var(--forest); color:white;">Bước 2</div>
+        <h3 class="display text-2xl font-bold mb-2">AI phân tích 60 giây</h3>
+        <p class="text-sm text-[var(--ink-soft)]">Dựa trên 8 framework của Kiyosaki, Ramit Sethi, Hormozi, Priestley...</p>
+      </div>
+      <div class="card-chunky p-6" style="background:var(--sunshine);">
+        <div class="text-5xl mb-3">🚀</div>
+        <div class="sticker mb-3">Bước 3</div>
+        <h3 class="display text-2xl font-bold mb-2">Nhận lộ trình 90 ngày</h3>
+        <p class="text-sm text-[var(--ink-soft)]">Cá nhân hoá cho ngành, kinh nghiệm và Rich Life Number của bạn.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Council -->
+  <section id="council" class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="display text-4xl md:text-5xl font-black text-center mb-4">
+      8 Bộ óc đứng sau báo cáo của bạn
+    </h2>
+    <p class="text-center text-[var(--ink-soft)] mb-12 max-w-2xl mx-auto">Thu Nhập AI tích hợp triết lý và framework của những chuyên gia hàng đầu thế giới về thu nhập, tài chính và bứt phá sự nghiệp.</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card-chunky p-4 text-center"><div class="text-4xl mb-2">💼</div><div class="font-bold text-sm">Robert Kiyosaki</div><div class="text-xs text-[var(--ink-soft)]">Cashflow Quadrant</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--peach);"><div class="text-4xl mb-2">💎</div><div class="font-bold text-sm">Ramit Sethi</div><div class="text-xs text-[var(--ink-soft)]">Rich Life</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--lavender);"><div class="text-4xl mb-2">🎯</div><div class="font-bold text-sm">Alex Hormozi</div><div class="text-xs text-[var(--ink-soft)]">Grand Slam Offer</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--sunshine);"><div class="text-4xl mb-2">👑</div><div class="font-bold text-sm">Daniel Priestley</div><div class="text-xs text-[var(--ink-soft)]">Key Person</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--sunshine);"><div class="text-4xl mb-2">🎪</div><div class="font-bold text-sm">Russell Brunson</div><div class="text-xs text-[var(--ink-soft)]">Value Ladder</div></div>
+      <div class="card-chunky p-4 text-center"><div class="text-4xl mb-2">📊</div><div class="font-bold text-sm">Kondo & Okiyama</div><div class="text-xs text-[var(--ink-soft)]">Bản đồ dòng tiền</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--lavender);"><div class="text-4xl mb-2">📒</div><div class="font-bold text-sm">Mullis & Orloff</div><div class="text-xs text-[var(--ink-soft)]">Kế toán vỉa hè</div></div>
+      <div class="card-chunky p-4 text-center" style="background:var(--peach);"><div class="text-4xl mb-2">🇻🇳</div><div class="font-bold text-sm">Phạm Thành Long</div><div class="text-xs text-[var(--ink-soft)]">Bản địa hoá VN</div></div>
+    </div>
+
+    <div class="text-center mt-12">
+      <button class="btn-primary" onclick="goToLevel()">Sẵn sàng khám phá →</button>
+    </div>
+  </section>
+
+  <footer class="max-w-5xl mx-auto px-6 py-10 text-center text-sm text-[var(--ink-soft)]">
+    <div>© 2026 Thu Nhập AI · Bảo mật theo Nghị định 13/2023 · Không phải lời khuyên đầu tư cá nhân</div>
+  </footer>
+</div>
+
+<!-- ============ SCREEN: LEVEL (Cashflow Quadrant) ============ -->
+<div class="screen" id="screen-level">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <button class="btn-ghost mb-8" onclick="backToLanding()">← Quay lại</button>
+
+    <div class="sticker mb-6">💡 Câu hỏi khởi động</div>
+    <h2 class="display text-4xl md:text-5xl font-black mb-4 leading-[1.05]">
+      Trước tiên — <span class="squiggle-underline">bạn đang ở đâu</span><br>
+      trong Cashflow Quadrant?
+    </h2>
+    <p class="text-[var(--ink-soft)] mb-8 text-lg">Theo framework của <b>Robert Kiyosaki</b> — có 4 cách cơ bản để kiếm thu nhập. Mỗi cách có luật chơi khác nhau. Chọn cái đúng nhất với bạn hiện tại:</p>
+
+    <div class="space-y-4 mb-8">
+      <button class="option-card" data-value="E" onclick="selectLevel(this)">
+        <span class="emoji">💼</span>
+        <div>
+          <div>Tôi đang làm thuê (Employee)</div>
+          <div class="hint">Lương cố định, đổi thời gian lấy tiền</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="S" onclick="selectLevel(this)">
+        <span class="emoji">🛠️</span>
+        <div>
+          <div>Tôi đang tự doanh / freelance (Self-employed)</div>
+          <div class="hint">Tự làm chủ, nhưng không có mình thì không có tiền</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="B" onclick="selectLevel(this)">
+        <span class="emoji">🏢</span>
+        <div>
+          <div>Tôi có doanh nghiệp riêng (Business Owner)</div>
+          <div class="hint">Có team, hệ thống làm ra tiền thay tôi</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="I" onclick="selectLevel(this)">
+        <span class="emoji">📈</span>
+        <div>
+          <div>Tôi sống chủ yếu từ đầu tư (Investor)</div>
+          <div class="hint">Tiền đẻ ra tiền — BĐS, chứng khoán, doanh nghiệp</div>
+        </div>
+      </button>
+      <button class="option-card" data-value="MIX" onclick="selectLevel(this)">
+        <span class="emoji">🔀</span>
+        <div>
+          <div>Tôi kết hợp nhiều vai trò trên</div>
+          <div class="hint">Đang trên đường đa dạng hoá nguồn thu</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="text-center">
+      <button class="btn-primary" id="level-next-btn" disabled onclick="startForm()">Tiếp tục →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCREEN: FORM (12 Questions) ============ -->
+<div class="screen" id="screen-form">
+  <div class="max-w-2xl mx-auto px-6 py-10">
+    <div class="flex items-center gap-4 mb-3">
+      <button class="btn-ghost" onclick="prevQuestion()">←</button>
+      <div class="flex-1">
+        <div class="flex justify-between text-xs font-bold mb-2 text-[var(--ink-soft)]">
+          <span id="q-counter">Câu 1/12</span>
+          <span id="q-remaining">⏱️ ~4 phút còn lại</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:8%"></div></div>
+      </div>
+    </div>
+
+    <div id="form-content" class="mt-10">
+      <!-- Dynamic content injected here -->
+    </div>
+
+    <div class="mt-8 flex justify-end">
+      <button class="btn-primary" id="next-btn" disabled onclick="nextQuestion()">Tiếp theo →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCREEN: LOADING ============ -->
+<div class="screen" id="screen-loading">
+  <div class="max-w-2xl mx-auto px-6 py-16 text-center">
+    <div class="inline-block mb-6">
+      <div class="relative w-28 h-28 mx-auto">
+        <div class="absolute inset-0 border-[5px] border-[var(--ink)] rounded-full spin-slow" style="border-right-color: transparent; border-bottom-color: transparent;"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-5xl">🧠</div>
+      </div>
+    </div>
+    <h2 class="display text-3xl md:text-4xl font-black mb-2">
+      AI đang phân tích hồ sơ của bạn...
+    </h2>
+    <p class="text-[var(--ink-soft)] mb-10" id="loading-sub">Đang so sánh với 52.847 người Việt cùng ngành</p>
+
+    <div class="space-y-3 max-w-md mx-auto text-left">
+      <div class="loading-step" id="step-0"><div class="step-icon">1</div><span>Phân tích Cashflow Quadrant (Kiyosaki)</span></div>
+      <div class="loading-step" id="step-1"><div class="step-icon">2</div><span>So sánh với 52.847 người cùng ngành tại VN</span></div>
+      <div class="loading-step" id="step-2"><div class="step-icon">3</div><span>Tính toán Rich Life Number (Ramit Sethi)</span></div>
+      <div class="loading-step" id="step-3"><div class="step-icon">4</div><span>Phát hiện 3 điểm nghẽn dòng tiền</span></div>
+      <div class="loading-step" id="step-4"><div class="step-icon">5</div><span>Áp dụng Bản đồ dòng tiền (Kondo & Okiyama)</span></div>
+      <div class="loading-step" id="step-5"><div class="step-icon">6</div><span>Thiết kế lộ trình 90 ngày cá nhân hoá</span></div>
+      <div class="loading-step" id="step-6"><div class="step-icon">7</div><span>Tổng hợp báo cáo + 5 món quà tặng kèm</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCREEN: RESULT ============ -->
+<div class="screen" id="screen-result">
+  <div class="max-w-3xl mx-auto px-6 py-10" id="result-content">
+    <!-- Dynamic content injected here -->
+  </div>
+</div>
+
+<!-- ============ SCREEN: PRICING ============ -->
+<div class="screen" id="screen-pricing">
+  <div class="max-w-5xl mx-auto px-6 py-10">
+    <button class="btn-ghost mb-6" onclick="setScreen('screen-result')">← Quay lại báo cáo</button>
+
+    <div class="text-center mb-10">
+      <div class="sticker mb-4">🎯 Bước cuối cùng</div>
+      <h1 class="display text-4xl md:text-5xl font-black mb-4 leading-tight">
+        Chọn <span class="squiggle-underline">con đường bạn muốn đi</span>
+      </h1>
+      <p class="text-[var(--ink-soft)] max-w-2xl mx-auto mb-6">3 gói cho 3 mức cam kết khác nhau. Tất cả đều bảo chứng hoàn tiền 30 ngày nếu không hài lòng.</p>
+
+      <div class="urgency-bar">⏰ Ưu đãi kết thúc sau:<span class="timer" id="countdown-timer">23:59:59</span></div>
+    </div>
+
+    <div class="social-proof-bar" style="display:flex; margin: 0 auto 32px; max-width: fit-content;">
+      <div class="flex -space-x-3">
+        <div class="w-10 h-10 rounded-full border-[2.5px] border-[var(--ink)] bg-[var(--coral)] flex items-center justify-center text-white font-black">M</div>
+        <div class="w-10 h-10 rounded-full border-[2.5px] border-[var(--ink)] bg-[var(--sunshine)] flex items-center justify-center font-black">H</div>
+        <div class="w-10 h-10 rounded-full border-[2.5px] border-[var(--ink)] bg-[var(--forest)] flex items-center justify-center text-white font-black">N</div>
+        <div class="w-10 h-10 rounded-full border-[2.5px] border-[var(--ink)] bg-[var(--lavender)] flex items-center justify-center font-black">T</div>
+      </div>
+      <div><b>127 người</b> đã đăng ký tuần này</div>
+    </div>
+
+    <div id="pricing-cards-container" class="grid md:grid-cols-3 gap-6 mb-8"></div>
+
+    <div id="order-bump-container" class="max-w-3xl mx-auto mb-8"></div>
+
+    <!-- Testimonials -->
+    <h2 class="display text-3xl font-black text-center mb-6 mt-12">
+      Khách hàng nói gì về Income Sprint
+    </h2>
+    <div class="grid md:grid-cols-3 gap-4 mb-10">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"Sau 60 ngày, em từ 22tr lên 45tr/tháng. Lộ trình cực rõ, không cần đoán mò nữa."</div>
+        <div class="author">
+          <div class="avatar" style="background: var(--peach);">M</div>
+          <div class="name-info"><b>Minh Hà</b>Marketing · Hà Nội</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"Mentor call 1-1 giúp em xác định đúng kỹ năng cần nâng. Giờ em đã có 3 dòng thu."</div>
+        <div class="author">
+          <div class="avatar" style="background: var(--sunshine);">T</div>
+          <div class="name-info"><b>Tuấn Anh</b>IT · TP.HCM</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"Cộng đồng Zalo cực chất. Mỗi ngày học được điều mới. Đáng đồng tiền gấp 10 lần."</div>
+        <div class="author">
+          <div class="avatar" style="background: var(--lavender);">L</div>
+          <div class="name-info"><b>Linh Nguyễn</b>Finance · Đà Nẵng</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guarantee -->
+    <div class="guarantee-badge mb-10">
+      <div class="shield">🛡️</div>
+      <h3 class="display text-2xl font-black mb-2">Bảo chứng hoàn tiền 30 ngày</h3>
+      <p class="text-sm opacity-90">Nếu sau 30 ngày áp dụng mà bạn không thấy lộ trình rõ ràng, không thấy tiến bộ cụ thể — chúng tôi hoàn 100% số tiền bạn đã đóng. Không hỏi lý do, không làm khó.</p>
+    </div>
+
+    <div class="text-center">
+      <button class="btn-primary" style="font-size: 20px; padding: 20px 44px;" onclick="proceedToCheckout()">
+        Tiến tới thanh toán →
+      </button>
+      <div class="mt-3 text-sm font-semibold">Tổng: <span class="text-[var(--coral)] display text-xl" id="pricing-total">2.900.000đ</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCREEN: CHECKOUT ============ -->
+<div class="screen" id="screen-checkout">
+  <div class="max-w-5xl mx-auto px-6 py-10">
+    <button class="btn-ghost mb-6" onclick="setScreen('screen-pricing')">← Quay lại chọn gói</button>
+
+    <div class="text-center mb-10">
+      <div class="sticker mb-4">💳 Thanh toán an toàn</div>
+      <h1 class="display text-4xl md:text-5xl font-black">Hoàn tất đơn hàng</h1>
+      <p class="text-[var(--ink-soft)] mt-3">Điền thông tin + chuyển khoản qua VietQR. Chỉ mất 60 giây.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- LEFT: Customer info + summary -->
+      <div class="card-chunky p-8">
+        <h2 class="display text-2xl font-bold mb-6">📝 Thông tin của bạn</h2>
+
+        <div class="form-field">
+          <label class="form-label">Họ và tên *</label>
+          <input type="text" class="input-chunky" id="customer-name" placeholder="Nguyễn Văn A" oninput="updateCustomerField('name', this.value)" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email *</label>
+          <input type="email" class="input-chunky" id="customer-email" placeholder="you@example.com" oninput="updateCustomerField('email', this.value)" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Số điện thoại (Zalo) *</label>
+          <input type="tel" class="input-chunky" id="customer-phone" placeholder="0912345678" oninput="updateCustomerField('phone', this.value)" />
+        </div>
+
+        <div class="order-summary">
+          <h4>Tóm tắt đơn hàng</h4>
+          <div id="order-summary-content"></div>
+        </div>
+
+        <div class="trust-badges">
+          🔒 Thông tin mã hoá SSL · 💰 Hoàn tiền 30 ngày · 🇻🇳 VietQR · ⚡ Xử lý trong 15 phút
+        </div>
+      </div>
+
+      <!-- RIGHT: QR Payment -->
+      <div class="card-chunky p-8" style="background: var(--peach);">
+        <h2 class="display text-2xl font-bold mb-4">💳 Quét QR để thanh toán</h2>
+
+        <div class="qr-container">
+          <img id="qr-image" class="qr-image" alt="Mã QR thanh toán VietQR" style="display:none;" />
+          <div id="qr-skeleton" class="qr-skeleton">
+            👆 Điền thông tin bên trái để sinh mã QR cá nhân hoá
+          </div>
+        </div>
+
+        <div class="bank-info">
+          <div class="bank-row">
+            <span class="label">Ngân hàng</span>
+            <span class="value">MB Bank</span>
+          </div>
+          <div class="bank-row">
+            <span class="label">Số tài khoản</span>
+            <span class="value">0888777001</span>
+          </div>
+          <div class="bank-row">
+            <span class="label">Chủ tài khoản</span>
+            <span class="value">NGUYEN THANH TU</span>
+          </div>
+          <div class="bank-row">
+            <span class="label">Số tiền</span>
+            <span class="value highlight" id="transfer-amount">2.900.000đ</span>
+          </div>
+          <div class="bank-row">
+            <span class="label">Nội dung CK</span>
+            <span class="value highlight" id="transfer-code">TNSP0000</span>
+          </div>
+        </div>
+
+        <div class="instruction-box">
+          <b>📱 Cách thanh toán:</b>
+          <ol>
+            <li>Mở app ngân hàng (MB, VCB, TPBank, Techcombank...)</li>
+            <li>Chọn chức năng <b>Quét QR</b></li>
+            <li>Quét mã QR ở trên → mọi thông tin tự điền</li>
+            <li>Kiểm tra → xác nhận → hoàn tất</li>
+            <li>Click nút bên dưới để báo đã chuyển</li>
+          </ol>
+        </div>
+
+        <button class="btn-primary w-full" style="justify-content:center;" id="confirm-payment-btn" disabled onclick="submitOrder()">
+          ✅ Tôi đã chuyển khoản
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCREEN: CONFIRMATION ============ -->
+<div class="screen" id="screen-confirmation">
+  <div class="max-w-3xl mx-auto px-6 py-16">
+    <div class="text-center mb-10">
+      <div style="font-size: 96px; line-height: 1;" class="mb-4">🎉</div>
+      <div class="sticker mb-4">✨ Cảm ơn bạn</div>
+      <h1 class="display text-4xl md:text-5xl font-black mb-4 leading-tight">
+        Chào mừng đến<br><span class="squiggle-underline">gia đình Thu Nhập AI!</span>
+      </h1>
+      <p class="text-lg text-[var(--ink-soft)]" id="confirmation-message">
+        Anh Alan đã nhận được thông tin của bạn.
+      </p>
+    </div>
+
+    <div class="card-chunky p-8 mb-6" style="background: var(--peach);">
+      <h2 class="display text-2xl font-bold mb-4">⏱️ Trong 15-30 phút tới, bạn sẽ nhận được:</h2>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 10px 0; display: flex; gap: 12px; align-items: start;"><span>✅</span><div><b>Email xác nhận thanh toán</b> + link truy cập tài liệu (check cả Spam/Promotion)</div></li>
+        <li style="padding: 10px 0; display: flex; gap: 12px; align-items: start;"><span>✅</span><div><b>Invitation vào Zalo VIP Community</b> 5.000+ người cùng mục tiêu</div></li>
+        <li style="padding: 10px 0; display: flex; gap: 12px; align-items: start;"><span>✅</span><div><b>Link đặt lịch 1-1 call</b> với mentor (cho gói Sprint trở lên)</div></li>
+        <li style="padding: 10px 0; display: flex; gap: 12px; align-items: start;"><span>✅</span><div><b>Báo cáo Thu Nhập Pro 100 trang</b> — bản đầy đủ của báo cáo bạn vừa xem</div></li>
+      </ul>
+    </div>
+
+    <!-- UPSELL IMMEDIATE -->
+    <div class="upsell-box mb-6">
+      <div class="flex items-start gap-4 mb-4">
+        <div style="font-size: 48px;">👑</div>
+        <div class="flex-1">
+          <h2 class="display text-2xl md:text-3xl font-black mb-2">Nâng cấp lên VIP 1-1 với Alan Tú?</h2>
+          <p class="text-sm">Được kèm cặp trực tiếp bởi Alan Tú trong 12 tuần. Chỉ còn <b>3 slot</b> tháng này — giá đặc biệt chỉ khi nâng cấp trong 15 phút tới.</p>
+        </div>
+      </div>
+
+      <ul style="list-style: none; padding: 0; font-size: 13px; margin: 16px 0;">
+        <li style="padding: 4px 0;">✅ 12 tuần coaching 1-1 với Alan Tú</li>
+        <li style="padding: 4px 0;">✅ Mastermind group 20 người đỉnh cao</li>
+        <li style="padding: 4px 0;">✅ Direct Zalo với Alan (trả lời 24h)</li>
+        <li style="padding: 4px 0;">✅ Custom lộ trình riêng theo hồ sơ bạn</li>
+        <li style="padding: 4px 0;">✅ Bonus: Playbook tối ưu thuế + tài sản sinh lời</li>
+      </ul>
+
+      <div class="flex items-center justify-between mt-6 gap-4" style="flex-wrap: wrap;">
+        <div>
+          <div style="font-size: 12px; color: var(--ink-soft);"><s>Giá thường 9.900.000đ</s></div>
+          <div class="display text-4xl font-black text-[var(--coral)]">+4.900.000đ</div>
+          <div class="text-xs text-[var(--ink-soft)]">(thêm vào đơn hiện tại)</div>
+        </div>
+        <button class="btn-primary" onclick="upsellVIP()">Nâng cấp VIP →</button>
+      </div>
+    </div>
+
+    <!-- Next steps -->
+    <div class="card-chunky p-6 mb-6">
+      <h3 class="display text-xl font-black mb-3">📱 3 việc cần làm ngay hôm nay:</h3>
+      <ol style="padding-left: 22px; line-height: 1.8;">
+        <li><b>Kiểm tra email</b> (gồm Spam/Promotion) để nhận link tài liệu</li>
+        <li><b>Vào Zalo Community</b> và giới thiệu bản thân — kết nối network đầu tiên</li>
+        <li><b>Bắt đầu Action #1</b> từ báo cáo: liệt kê 10 kỹ năng của bạn</li>
+      </ol>
+    </div>
+
+    <div class="text-center">
+      <button class="btn-ghost" onclick="restart()">↻ Khám phá lại cho người khác</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIP UPSELL MODAL ============ -->
+<div class="modal-overlay" id="vip-modal" onclick="handleModalBackdrop(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeVIPModal()" aria-label="Đóng">✕</button>
+
+    <div class="text-center mb-6">
+      <div style="font-size: 64px; line-height: 1;" class="mb-3">👑</div>
+      <div class="sticker" style="background: var(--coral); color: white;">Nâng cấp VIP 1-1</div>
+      <h2 class="display text-3xl font-black mt-4 leading-tight">
+        Chuyển thêm <span style="color: var(--coral);">4.900.000đ</span><br>
+        để kích hoạt VIP
+      </h2>
+    </div>
+
+    <div class="card-chunky p-5 mb-4" style="background: white;">
+      <h4 style="font-family: 'Fraunces', serif; font-weight: 800; font-size: 16px; margin-bottom: 8px;">✨ Bạn sẽ nhận thêm:</h4>
+      <ul style="list-style: none; padding: 0; font-size: 14px;">
+        <li style="padding: 5px 0;">✅ 12 tuần coaching 1-1 với Alan Tú</li>
+        <li style="padding: 5px 0;">✅ Mastermind group 20 người đỉnh cao</li>
+        <li style="padding: 5px 0;">✅ Direct Zalo với Alan (trả lời 24h)</li>
+        <li style="padding: 5px 0;">✅ Custom lộ trình riêng theo hồ sơ</li>
+        <li style="padding: 5px 0;">✅ Framework tối ưu dòng tiền cá nhân</li>
+      </ul>
+    </div>
+
+    <div class="qr-container" style="margin-bottom: 12px;">
+      <img id="vip-qr-image" class="qr-image" alt="Mã QR thanh toán VIP upgrade" />
+    </div>
+
+    <div class="bank-info">
+      <div class="bank-row">
+        <span class="label">Ngân hàng</span>
+        <span class="value">MB Bank</span>
+      </div>
+      <div class="bank-row">
+        <span class="label">Chủ TK</span>
+        <span class="value">NGUYEN THANH TU</span>
+      </div>
+      <div class="bank-row">
+        <span class="label">Số tiền thêm</span>
+        <span class="value highlight">4.900.000đ</span>
+      </div>
+      <div class="bank-row">
+        <span class="label">Nội dung CK</span>
+        <span class="value highlight" id="vip-transfer-code">TNVIP0000</span>
+      </div>
+    </div>
+
+    <div style="background: #FFFBEB; border: 2px dashed var(--ink); border-radius: 12px; padding: 12px 16px; margin-top: 14px; font-size: 13px;">
+      💡 <b>Lưu ý:</b> Đây là khoản bổ sung cho đơn hàng hiện tại. Quét QR ở trên để chuyển thêm — mọi thông tin đã được điền sẵn.
+    </div>
+
+    <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 16px;" onclick="confirmVIPPayment()">
+      ✅ Tôi đã chuyển khoản VIP
+    </button>
+
+    <button class="btn-ghost" style="width: 100%; justify-content: center; margin-top: 10px; display: block; text-align: center;" onclick="closeVIPModal()">
+      Để sau
+    </button>
+  </div>
+</div>
+
+<script>
+// ========== STATE ==========
+const state = {
+  currentQ: 0,
+  data: {
+    quadrant: null,
+    industry: null,
+    experience: null,
+    income: null,
+    sources: [],
+    goals: [],
+    target: null,
+    blocker: null,
+    savings: null,
+    streams: null,
+    assets: [],
+    hours: null,
+    name: ''
+  }
+};
+
+// ========== QUESTIONS ==========
+const questions = [
+  {
+    id: 'industry',
+    title: 'Bạn đang làm trong ngành nào?',
+    hint: 'Để so sánh với 50.000+ người cùng ngành trong database',
+    type: 'single',
+    options: [
+      { v: 'it', label: 'Công nghệ / IT / Phần mềm', emoji: '💻' },
+      { v: 'finance', label: 'Tài chính / Ngân hàng / Bảo hiểm', emoji: '💰' },
+      { v: 'real-estate', label: 'Bất động sản / Xây dựng', emoji: '🏢' },
+      { v: 'marketing', label: 'Marketing / Sales / Kinh doanh', emoji: '📢' },
+      { v: 'health-edu', label: 'Y tế / Giáo dục', emoji: '⚕️' },
+      { v: 'manufacturing', label: 'Sản xuất / Logistics', emoji: '🏭' },
+      { v: 'services', label: 'Dịch vụ / F&B / Du lịch', emoji: '🍜' },
+      { v: 'freelance', label: 'Tự do / Freelance / Sáng tạo', emoji: '🎨' },
+      { v: 'other', label: 'Ngành khác', emoji: '✨' },
+    ]
+  },
+  {
+    id: 'experience',
+    title: 'Bạn có bao nhiêu năm kinh nghiệm trong ngành?',
+    type: 'single',
+    options: [
+      { v: '<2', label: 'Dưới 2 năm', hint: 'Mới vào nghề', emoji: '🌱' },
+      { v: '2-5', label: '2 - 5 năm', hint: 'Đang lên', emoji: '🚀' },
+      { v: '5-10', label: '5 - 10 năm', hint: 'Cứng nghề', emoji: '💪' },
+      { v: '10-20', label: '10 - 20 năm', hint: 'Chuyên gia', emoji: '🎯' },
+      { v: '20+', label: 'Trên 20 năm', hint: 'Kỳ cựu', emoji: '👑' },
+    ]
+  },
+  {
+    id: 'income',
+    title: 'Thu nhập hiện tại của bạn (tổng tất cả nguồn)?',
+    hint: '🔒 Thông tin được mã hoá. Không lưu trữ. Không chia sẻ.',
+    type: 'single',
+    options: [
+      { v: 7, label: 'Dưới 10 triệu/tháng' },
+      { v: 15, label: '10 - 20 triệu/tháng' },
+      { v: 27, label: '20 - 35 triệu/tháng' },
+      { v: 42, label: '35 - 50 triệu/tháng' },
+      { v: 65, label: '50 - 80 triệu/tháng' },
+      { v: 115, label: '80 - 150 triệu/tháng' },
+      { v: 225, label: '150 - 300 triệu/tháng' },
+      { v: 400, label: 'Trên 300 triệu/tháng' },
+    ]
+  },
+  {
+    id: 'sources',
+    title: 'Thu nhập của bạn đến từ đâu?',
+    hint: '✨ Chọn tất cả các mục phù hợp — đây là câu quan trọng nhất',
+    type: 'multi',
+    options: [
+      { v: 'salary', label: 'Lương cố định từ công ty', emoji: '💼' },
+      { v: 'commission', label: 'Hoa hồng / thưởng doanh số', emoji: '🎁' },
+      { v: 'business', label: 'Kinh doanh riêng / tự doanh', emoji: '🏪' },
+      { v: 'investment', label: 'Đầu tư (chứng khoán, BĐS, crypto)', emoji: '📈' },
+      { v: 'rental', label: 'Cho thuê tài sản', emoji: '🏘️' },
+      { v: 'freelance', label: 'Freelance / công việc phụ', emoji: '🎨' },
+      { v: 'royalty', label: 'Bản quyền / royalty', emoji: '📚' },
+    ]
+  },
+  {
+    id: 'goals',
+    title: 'Cuộc sống lý tưởng của bạn trong 3 năm tới?',
+    hint: '💖 Chọn tối đa 3 điều quan trọng nhất với bạn',
+    type: 'multi',
+    maxSelect: 3,
+    options: [
+      { v: 'house', label: 'Mua nhà không cần vay', emoji: '🏡' },
+      { v: 'school', label: 'Con học trường quốc tế', emoji: '🎓' },
+      { v: 'travel', label: 'Du lịch 4-6 nước/năm', emoji: '✈️' },
+      { v: 'retire', label: 'Nghỉ hưu sớm trước 45', emoji: '🌴' },
+      { v: 'freedom', label: 'Tự do làm điều mình thích', emoji: '🕊️' },
+      { v: 'parents', label: 'Giúp bố mẹ nghỉ hưu an nhàn', emoji: '👨‍👩‍👧' },
+      { v: 'business', label: 'Xây dựng doanh nghiệp riêng', emoji: '🚀' },
+      { v: 'fire', label: 'Tự do tài chính hoàn toàn', emoji: '💎' },
+    ]
+  },
+  {
+    id: 'target',
+    title: 'Mức thu nhập đủ để bạn cảm thấy TỰ DO?',
+    hint: '👉 Đây là "Rich Life Number" của bạn theo Ramit Sethi',
+    type: 'single',
+    options: [
+      { v: 50, label: '50 triệu/tháng', emoji: '🌿' },
+      { v: 100, label: '100 triệu/tháng', emoji: '🌳' },
+      { v: 200, label: '200 triệu/tháng', emoji: '🏔️' },
+      { v: 500, label: '500 triệu/tháng', emoji: '🗻' },
+      { v: 1000, label: '1 tỷ+/tháng', emoji: '🚀' },
+    ]
+  },
+  {
+    id: 'blocker',
+    title: 'Điều gì đang NGĂN bạn đạt mức đó?',
+    hint: '🎯 Chọn 1 điều thật nhất — đây là điểm nghẽn chính cần phá',
+    type: 'single',
+    options: [
+      { v: 'where', label: 'Tôi không biết bắt đầu từ đâu', emoji: '🧭' },
+      { v: 'skill', label: 'Tôi thiếu kỹ năng / kiến thức', emoji: '📚' },
+      { v: 'capital', label: 'Tôi thiếu vốn đầu tư / khởi nghiệp', emoji: '💰' },
+      { v: 'time', label: 'Tôi thiếu thời gian (kẹt job hiện tại)', emoji: '⏰' },
+      { v: 'network', label: 'Tôi thiếu network / mối quan hệ', emoji: '🤝' },
+      { v: 'risk', label: 'Tôi sợ rủi ro / không dám bứt phá', emoji: '😰' },
+      { v: 'opportunity', label: 'Chưa tìm được cơ hội phù hợp', emoji: '🔍' },
+    ]
+  },
+  {
+    id: 'savings',
+    title: 'Tỷ lệ tiết kiệm hàng tháng của bạn?',
+    type: 'single',
+    options: [
+      { v: 0, label: '0% — chi hết hoặc hơn thu nhập', emoji: '😅' },
+      { v: 5, label: '1 - 10%', emoji: '🌱' },
+      { v: 15, label: '10 - 20%', emoji: '💪' },
+      { v: 30, label: '20 - 40%', emoji: '🎯' },
+      { v: 50, label: 'Trên 40%', emoji: '🏆' },
+      { v: -1, label: 'Tôi không theo dõi', emoji: '🤔' },
+    ]
+  },
+  {
+    id: 'streams',
+    title: 'Bạn hiện có mấy dòng thu nhập?',
+    hint: '💡 Nghiên cứu: người giàu trung bình có 7 dòng thu nhập',
+    type: 'single',
+    options: [
+      { v: 1, label: '1 dòng duy nhất (chỉ lương)', emoji: '☝️' },
+      { v: 2, label: '2 dòng', emoji: '✌️' },
+      { v: 3, label: '3 - 4 dòng', emoji: '🙌' },
+      { v: 5, label: '5+ dòng', emoji: '🎯' },
+    ]
+  },
+  {
+    id: 'assets',
+    title: 'Bạn đã có những tài sản đầu tư nào?',
+    hint: 'Chọn tất cả đang có',
+    type: 'multi',
+    options: [
+      { v: 'none', label: 'Chưa có / chỉ tiền mặt tiết kiệm', emoji: '💵' },
+      { v: 'insurance', label: 'Bảo hiểm nhân thọ có đầu tư', emoji: '🛡️' },
+      { v: 'stock', label: 'Chứng khoán / quỹ mở', emoji: '📊' },
+      { v: 'realestate', label: 'Bất động sản', emoji: '🏢' },
+      { v: 'crypto', label: 'Crypto / tài sản số', emoji: '₿' },
+      { v: 'gold', label: 'Vàng', emoji: '🥇' },
+      { v: 'business', label: 'Doanh nghiệp / cổ phần', emoji: '🏭' },
+    ]
+  },
+  {
+    id: 'hours',
+    title: 'Bạn sẵn sàng dành bao nhiêu GIỜ mỗi tuần?',
+    hint: 'Để thực hiện lộ trình bứt phá thu nhập',
+    type: 'single',
+    options: [
+      { v: 1, label: 'Dưới 2 giờ (rất bận)', emoji: '🚧' },
+      { v: 3, label: '2 - 5 giờ', emoji: '🌱' },
+      { v: 7, label: '5 - 10 giờ', emoji: '💪' },
+      { v: 15, label: '10 - 20 giờ', emoji: '🔥' },
+      { v: 25, label: 'Trên 20 giờ (quyết tâm cao)', emoji: '🚀' },
+    ]
+  },
+  {
+    id: 'name',
+    title: 'Cuối cùng — tên của bạn là gì?',
+    hint: 'Để AI cá nhân hoá báo cáo dành riêng cho bạn 💝',
+    type: 'text',
+    placeholder: 'Nhập tên của bạn...'
+  },
+];
+
+// ========== BENCHMARKS (triệu VNĐ/tháng) ==========
+const benchmarks = {
+  'it':            { median: 28, top25: 50, top10: 100, top1: 350, label: 'Công nghệ' },
+  'finance':       { median: 25, top25: 45, top10: 90,  top1: 400, label: 'Tài chính / Ngân hàng' },
+  'real-estate':   { median: 22, top25: 45, top10: 120, top1: 500, label: 'Bất động sản' },
+  'marketing':     { median: 20, top25: 38, top10: 75,  top1: 250, label: 'Marketing / Sales' },
+  'health-edu':    { median: 18, top25: 32, top10: 65,  top1: 200, label: 'Y tế / Giáo dục' },
+  'manufacturing': { median: 17, top25: 30, top10: 55,  top1: 150, label: 'Sản xuất / Logistics' },
+  'services':      { median: 15, top25: 27, top10: 50,  top1: 130, label: 'Dịch vụ / F&B' },
+  'freelance':     { median: 20, top25: 40, top10: 80,  top1: 250, label: 'Freelance / Sáng tạo' },
+  'other':         { median: 18, top25: 32, top10: 60,  top1: 180, label: 'Ngành của bạn' },
+};
+
+// ========== NAVIGATION ==========
+function setScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function goToLevel() { setScreen('screen-level'); }
+function backToLanding() { setScreen('screen-landing'); }
+
+function selectLevel(el) {
+  document.querySelectorAll('#screen-level .option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.data.quadrant = el.dataset.value;
+  document.getElementById('level-next-btn').disabled = false;
+}
+
+function startForm() {
+  setScreen('screen-form');
+  state.currentQ = 0;
+  renderQuestion();
+}
+
+// ========== FORM RENDERING ==========
+function renderQuestion() {
+  const q = questions[state.currentQ];
+  const container = document.getElementById('form-content');
+  const progress = ((state.currentQ + 1) / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('q-counter').textContent = `Câu ${state.currentQ + 1}/${questions.length}`;
+  const remaining = Math.max(1, Math.round((questions.length - state.currentQ) * 0.3));
+  document.getElementById('q-remaining').textContent = `⏱️ ~${remaining} phút còn lại`;
+
+  let html = `<div class="fade-up">
+    <h2 class="display text-3xl md:text-4xl font-black mb-3 leading-tight">${q.title}</h2>`;
+  if (q.hint) html += `<p class="text-[var(--ink-soft)] mb-8 text-sm">${q.hint}</p>`;
+  html += `<div class="space-y-3">`;
+
+  if (q.type === 'text') {
+    html += `<input type="text" class="input-chunky" id="text-input" placeholder="${q.placeholder}" oninput="handleTextInput(this.value)" autofocus />`;
+  } else {
+    q.options.forEach((opt, i) => {
+      const current = state.data[q.id];
+      const isSelected = q.type === 'multi'
+        ? (Array.isArray(current) && current.includes(opt.v))
+        : current === opt.v;
+      html += `<button class="option-card ${isSelected ? 'selected' : ''}" data-value="${opt.v}" onclick="selectOption('${q.id}', '${opt.v}', '${q.type}', ${q.maxSelect || 0})">`;
+      if (opt.emoji) html += `<span class="emoji">${opt.emoji}</span>`;
+      html += `<div><div>${opt.label}</div>`;
+      if (opt.hint) html += `<div class="hint">${opt.hint}</div>`;
+      html += `</div></button>`;
+    });
+  }
+
+  html += `</div></div>`;
+  container.innerHTML = html;
+  updateNextButton();
+}
+
+function selectOption(qid, value, type, maxSelect) {
+  const q = questions[state.currentQ];
+  // Parse value back to correct type
+  const parsed = isNaN(Number(value)) ? value : (value.includes('.') ? parseFloat(value) : parseInt(value));
+  const finalVal = (typeof q.options[0].v === 'number') ? Number(value) : value;
+
+  if (type === 'multi') {
+    if (!Array.isArray(state.data[qid])) state.data[qid] = [];
+    const idx = state.data[qid].indexOf(finalVal);
+    if (idx >= 0) {
+      state.data[qid].splice(idx, 1);
+    } else {
+      if (maxSelect && state.data[qid].length >= maxSelect) {
+        // Remove first, add new
+        state.data[qid].shift();
+      }
+      state.data[qid].push(finalVal);
+    }
+  } else {
+    state.data[qid] = finalVal;
+  }
+  renderQuestion();
+}
+
+function handleTextInput(val) {
+  state.data.name = val.trim();
+  updateNextButton();
+}
+
+function updateNextButton() {
+  const q = questions[state.currentQ];
+  const val = state.data[q.id];
+  let valid = false;
+  if (q.type === 'text') valid = val && val.length >= 1;
+  else if (q.type === 'multi') valid = Array.isArray(val) && val.length > 0;
+  else valid = val !== null && val !== undefined;
+
+  const btn = document.getElementById('next-btn');
+  btn.disabled = !valid;
+  btn.textContent = state.currentQ === questions.length - 1 ? '✨ Xem báo cáo của tôi →' : 'Tiếp theo →';
+}
+
+function nextQuestion() {
+  if (state.currentQ < questions.length - 1) {
+    state.currentQ++;
+    renderQuestion();
+  } else {
+    startLoading();
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQ > 0) {
+    state.currentQ--;
+    renderQuestion();
+  } else {
+    setScreen('screen-level');
+  }
+}
+
+// ========== LOADING SEQUENCE ==========
+function startLoading() {
+  setScreen('screen-loading');
+  const steps = document.querySelectorAll('.loading-step');
+  let idx = 0;
+  steps.forEach(s => s.classList.remove('active', 'done'));
+  steps[0].classList.add('active');
+
+  const interval = setInterval(() => {
+    steps[idx].classList.remove('active');
+    steps[idx].classList.add('done');
+    idx++;
+    if (idx < steps.length) {
+      steps[idx].classList.add('active');
+    } else {
+      clearInterval(interval);
+      setTimeout(() => {
+        showResult();
+      }, 600);
+    }
+  }, 900);
+}
+
+// ========== ANALYSIS ENGINE ==========
+function analyze(d) {
+  const bench = benchmarks[d.industry] || benchmarks.other;
+  const income = d.income;
+  const name = d.name || 'bạn';
+
+  // Position
+  let topPercent;
+  if (income >= bench.top1) topPercent = 1;
+  else if (income >= bench.top10) topPercent = Math.round(1 + (bench.top1 - income) / (bench.top1 - bench.top10) * 9);
+  else if (income >= bench.top25) topPercent = Math.round(10 + (bench.top10 - income) / (bench.top10 - bench.top25) * 15);
+  else if (income >= bench.median) topPercent = Math.round(25 + (bench.top25 - income) / (bench.top25 - bench.median) * 25);
+  else topPercent = Math.round(50 + Math.min(40, (bench.median - income) / bench.median * 40));
+  topPercent = Math.max(1, Math.min(95, topPercent));
+
+  const gapToTop10 = (bench.top10 / income).toFixed(1);
+
+  // Quadrant analysis
+  const quadLabels = {
+    E: { label: 'Employee — Người làm công', icon: '💼', desc: 'Đổi thời gian lấy tiền' },
+    S: { label: 'Self-employed — Tự doanh', icon: '🛠️', desc: 'Tự làm chủ, thu nhập theo giờ' },
+    B: { label: 'Business Owner — Chủ doanh nghiệp', icon: '🏢', desc: 'Hệ thống làm ra tiền' },
+    I: { label: 'Investor — Nhà đầu tư', icon: '📈', desc: 'Tiền đẻ ra tiền' },
+    MIX: { label: 'Diversified — Đa nguồn thu', icon: '🔀', desc: 'Kết hợp nhiều vai trò' }
+  };
+  const quadInfo = quadLabels[d.quadrant] || quadLabels.E;
+
+  // Blockers detection
+  const blockers = [];
+
+  // B1: Income streams
+  if (d.streams === 1) {
+    blockers.push({
+      emoji: '🚨',
+      color: 'var(--coral)',
+      category: 'Nghẽn dòng thu nhập',
+      title: `${name} đang đặt toàn bộ trứng vào 1 giỏ duy nhất`,
+      detail: `Với ${d.experience} năm kinh nghiệm ngành ${bench.label} nhưng chỉ có <b>1 dòng thu duy nhất</b>, bạn đang chịu rủi ro cực lớn. Người top 10% ngành này có trung bình <b>3.8 dòng thu nhập</b>.`,
+      cost: `Nếu mất việc 6 tháng, bạn mất <b>${(income * 6).toLocaleString('vi-VN')} triệu</b> — tương đương tiền cọc nhà đầu tiên.`
+    });
+  } else if (d.streams === 2) {
+    blockers.push({
+      emoji: '⚠️',
+      color: 'var(--coral)',
+      category: 'Nghẽn đa dạng hoá',
+      title: `${name} mới có 2 dòng thu — chưa đủ an toàn`,
+      detail: `Bạn đã tốt hơn 60% người Việt, nhưng vẫn cần thêm 1-2 dòng nữa để thực sự "không lo". Nghiên cứu cho thấy 3 dòng là ngưỡng an toàn tối thiểu.`,
+      cost: `Cơ hội bỏ lỡ: ~${Math.round(income * 0.3)} triệu/tháng thu nhập bổ sung tiềm năng.`
+    });
+  }
+
+  // B2: Monetize skills
+  if ((d.experience === '5-10' || d.experience === '10-20' || d.experience === '20+') && d.streams <= 2 && !d.sources.includes('business') && !d.sources.includes('freelance')) {
+    blockers.push({
+      emoji: '💡',
+      color: 'var(--sunshine)',
+      category: 'Nghẽn monetize kỹ năng',
+      title: `Kinh nghiệm của ${name} đang bị "để dành" chứ không "cho thuê"`,
+      detail: `Với ${d.experience} năm trong ${bench.label}, bạn có chuyên môn mà nhiều người sẵn sàng trả 500k-2tr/giờ để học. Nhưng bạn chưa biến nó thành dòng thu nhập thụ động (course, consulting, ebook, mentorship).`,
+      cost: `Kỹ năng của bạn có thể tạo thêm <b>${Math.round(income * 0.5)}-${Math.round(income * 1.2)} triệu/tháng</b> mà không cần bỏ job chính.`
+    });
+  }
+
+  // B3: Assets
+  if (d.assets.includes('none') || (d.assets.length === 1 && d.assets[0] === 'none')) {
+    blockers.push({
+      emoji: '💸',
+      color: 'var(--forest)',
+      category: 'Nghẽn tài sản sinh lời',
+      title: `Tiền tiết kiệm của ${name} đang MẤT GIÁ mỗi ngày`,
+      detail: `Bạn tiết kiệm ${d.savings >= 0 ? d.savings + '%' : 'chưa theo dõi'} thu nhập — đây là điểm tốt! Nhưng tiền mặt đang mất ~4%/năm do lạm phát VN. Không có tài sản sinh lời = tiền bạn làm ra đang chảy ngược.`,
+      cost: `Nếu có 200tr tiết kiệm: mất <b>~8 triệu/năm</b> do lạm phát. Trong 10 năm = 80 triệu bốc hơi.`
+    });
+  } else if (d.assets.length <= 2 && !d.assets.includes('stock') && !d.assets.includes('realestate') && !d.assets.includes('business')) {
+    blockers.push({
+      emoji: '📉',
+      color: 'var(--forest)',
+      category: 'Nghẽn đa dạng tài sản',
+      title: `${name} cần đa dạng hoá tài sản đầu tư`,
+      detail: `Bạn đã có tài sản đầu tư — nhưng tập trung quá hẹp. Quy tắc vàng của nhà đầu tư: tối thiểu 3 loại tài sản không tương quan (vd: chứng khoán + BĐS + vàng).`,
+      cost: `Rủi ro tập trung: biến động 30-50% nếu loại tài sản duy nhất gặp biến động thị trường.`
+    });
+  }
+
+  // B4: Fill if less than 3 blockers based on main blocker
+  if (blockers.length < 3) {
+    const blockerMap = {
+      'where': {
+        emoji: '🧭',
+        color: 'var(--lavender)',
+        category: 'Nghẽn định hướng',
+        title: `${name} đang cần một LỘ TRÌNH rõ ràng`,
+        detail: `Bạn đã sẵn sàng hành động, nhưng chưa có bản đồ. Không có lộ trình cụ thể = hành động phân tán = kết quả nhỏ giọt. Đây là điểm nghẽn phổ biến nhất (73% người Việt gặp phải).`,
+        cost: `Mất trung bình <b>14 tháng</b> thử-sai trước khi tìm được hướng đúng.`
+      },
+      'skill': {
+        emoji: '📚',
+        color: 'var(--lavender)',
+        category: 'Nghẽn kỹ năng',
+        title: `${name} cần nâng cấp 1-2 kỹ năng quyết định`,
+        detail: `Không phải tất cả kỹ năng đều như nhau. 20% kỹ năng tạo ra 80% thu nhập trong ngành ${bench.label}. Vấn đề là bạn cần biết CHÍNH XÁC 20% đó là gì — không phải học lan man.`,
+        cost: `Kỹ năng đúng có thể tăng thu nhập <b>2-3x</b> trong 6-12 tháng.`
+      },
+      'capital': {
+        emoji: '💰',
+        color: 'var(--lavender)',
+        category: 'Nghẽn vốn khởi động',
+        title: `${name} đang thiếu vốn — nhưng đây không phải rào cản thật`,
+        detail: `Sự thật: 90% cơ hội tăng thu nhập tốt nhất KHÔNG CẦN VỐN LỚN. Freelance, consulting, tri thức số, affiliate — tất cả đều bắt đầu từ <5 triệu. Vấn đề là bạn đang nghĩ theo hướng "kinh doanh truyền thống".`,
+        cost: `Mỗi tháng chờ đợi "đủ vốn" = ~${Math.round(income * 0.3)} triệu cơ hội bỏ lỡ.`
+      },
+      'time': {
+        emoji: '⏰',
+        color: 'var(--lavender)',
+        category: 'Nghẽn quản lý thời gian',
+        title: `${name} không thiếu thời gian — thiếu LEVERAGE`,
+        detail: `Ai cũng có 24h/ngày. Vấn đề không phải thời gian mà là đòn bẩy. 5h/tuần dùng đúng (với AI + system) > 40h/tuần làm manual. Lộ trình dưới đây thiết kế cho chính ${d.hours} giờ/tuần của bạn.`,
+        cost: `Làm sai cách: 10 năm không lên được top 25%. Làm đúng đòn bẩy: 12-18 tháng.`
+      },
+      'network': {
+        emoji: '🤝',
+        color: 'var(--lavender)',
+        category: 'Nghẽn network',
+        title: `${name} cần xây dựng 5 mối quan hệ chiến lược`,
+        detail: `Nghiên cứu Harvard: thu nhập của bạn = trung bình thu nhập 5 người bạn gần nhất. Không cần 1000 follower — cần 5 người "đi trước" trong ngành ${bench.label}.`,
+        cost: `Không có mentor/network đúng = trung bình mất thêm <b>4-6 năm</b> để đạt mục tiêu.`
+      },
+      'risk': {
+        emoji: '😌',
+        color: 'var(--lavender)',
+        category: 'Nghẽn tư duy rủi ro',
+        title: `${name} cần một lộ trình KHÔNG rủi ro để bắt đầu`,
+        detail: `Tôi hiểu — bạn đã có gì đó để mất. Nhưng rủi ro LỚN NHẤT thực ra là KHÔNG LÀM GÌ. Lộ trình dưới đây được thiết kế để bạn có thể thử nghiệm mà không bỏ job chính, không vay nợ, không đặt cược.`,
+        cost: `Rủi ro "không làm gì": tụt lại so với đồng nghiệp 1 bậc mỗi 2 năm.`
+      },
+      'opportunity': {
+        emoji: '🔍',
+        color: 'var(--lavender)',
+        category: 'Nghẽn nhận diện cơ hội',
+        title: `Cơ hội ở khắp nơi — ${name} chưa có bộ lọc đúng`,
+        detail: `Có quá nhiều "cơ hội" ngoài kia và 95% là rác. Bạn cần framework để nhận diện cơ hội thật: (1) Phù hợp kỹ năng, (2) Có market demand, (3) Scalable, (4) Không đánh đổi giá trị cốt lõi.`,
+        cost: `Mỗi cơ hội rác bạn theo đuổi = 3-6 tháng và tiền cơ hội.`
+      }
+    };
+    const b = blockerMap[d.blocker];
+    if (b && !blockers.find(x => x.category === b.category)) blockers.push(b);
+  }
+
+  // Ensure 3 blockers
+  while (blockers.length < 3) {
+    blockers.push({
+      emoji: '⚡',
+      color: 'var(--peach)',
+      category: 'Nghẽn tốc độ triển khai',
+      title: `${name} cần tăng tốc thực thi`,
+      detail: `Bạn đã có đủ kiến thức và nguồn lực cơ bản. Điểm nghẽn cuối cùng là TỐC ĐỘ thực thi — biến kế hoạch thành hành động hàng tuần.`,
+      cost: `Mỗi tuần chậm = 1 tuần cơ hội rơi vào tay người khác.`
+    });
+  }
+
+  // Roadmap generation
+  const hrs = d.hours;
+  const isLight = hrs <= 3;
+  const isHeavy = hrs >= 15;
+
+  const roadmap = {
+    p1: {
+      title: 'Mở dòng thu nhập thứ 2',
+      days: 'Ngày 1-30',
+      weeks: [
+        { w: 'Tuần 1', focus: 'Audit kỹ năng', action: `Liệt kê 10 kỹ năng mạnh nhất của bạn trong ${bench.label}, định giá thị trường qua Upwork/LinkedIn/TopCV`, output: '1 Google Sheet với 10 kỹ năng + giá/giờ' },
+        { w: 'Tuần 2', focus: 'Setup kênh freelance', action: isLight ? 'Tạo 1 profile Upwork/LinkedIn chỉn chu — chỉ dành 2 tiếng cuối tuần' : 'Setup song song 3 kênh: Upwork + Fiverr + LinkedIn Creator', output: 'Profile live + 5 sample work' },
+        { w: 'Tuần 3', focus: 'Tiếp cận khách đầu', action: 'Gửi 20-50 proposal hoặc warm outreach cho người quen có nhu cầu', output: '2-3 cuộc hẹn đầu tiên' },
+        { w: 'Tuần 4', focus: 'Chốt khách', action: 'Chốt 1-2 khách đầu tiên, giao hàng chất lượng cao để lấy review', output: `Dòng thu nhập mới +${Math.round(income * 0.15)}-${Math.round(income * 0.4)}tr` },
+      ],
+      result: `+${Math.round(income * 0.15)} đến +${Math.round(income * 0.4)} triệu/tháng`
+    },
+    p2: {
+      title: 'Đóng gói kỹ năng thành tài sản',
+      days: 'Ngày 31-60',
+      weeks: [
+        { w: 'Tuần 5', focus: 'Chọn format', action: 'Quyết định đóng gói theo format nào: mini-course / ebook / template pack / consulting package', output: 'Outline sản phẩm hoàn chỉnh' },
+        { w: 'Tuần 6', focus: 'Sản xuất', action: isLight ? 'Dùng AI (Claude/ChatGPT) để tạo nội dung trong 3-4 giờ' : 'Tự quay/viết + AI hỗ trợ → hoàn thành MVP sản phẩm', output: 'MVP sản phẩm' },
+        { w: 'Tuần 7', focus: 'Landing + phễu', action: 'Tạo landing page miễn phí (Carrd/Framer) + email sequence 5 ngày', output: 'Phễu bán hàng hoàn chỉnh' },
+        { w: 'Tuần 8', focus: 'Launch', action: 'Pre-sale cho network có sẵn, chốt 10-30 khách đầu', output: `Thu nhập thụ động mới +${Math.round(income * 0.3)}-${Math.round(income * 0.8)}tr` },
+      ],
+      result: `+${Math.round(income * 0.3)} đến +${Math.round(income * 0.8)} triệu/tháng (thụ động)`
+    },
+    p3: {
+      title: 'Đặt nền tài sản sinh lời',
+      days: 'Ngày 61-90',
+      weeks: [
+        { w: 'Tuần 9', focus: 'Mở tài khoản đầu tư', action: 'Mở tài khoản quỹ mở (VinaCapital/Dragon Capital/SSI) + nghiên cứu 2-3 loại tài sản phù hợp khẩu vị rủi ro', output: 'Cổng đầu tư đầu tiên live' },
+        { w: 'Tuần 10', focus: 'Phân bổ tài sản', action: 'Phân bổ 50% quỹ cân bằng, 30% tài sản ổn định (vàng/trái phiếu), 20% dự phòng linh hoạt', output: 'Portfolio khởi đầu cân bằng' },
+        { w: 'Tuần 11', focus: 'Auto-invest', action: 'Setup tự động chuyển 20-30% thu nhập mới vào portfolio mỗi tháng', output: 'Hệ thống tự động' },
+        { w: 'Tuần 12', focus: 'Review & nâng cấp', action: 'Tổng kết 90 ngày, điều chỉnh lộ trình 90 ngày tiếp theo', output: 'Kế hoạch Q2 rõ ràng' },
+      ],
+      result: `Tài sản sinh lời ~8-12%/năm (tái đầu tư liên tục)`
+    }
+  };
+
+  // Projection
+  const factor90 = isHeavy ? 1.9 : (isLight ? 1.35 : 1.65);
+  const factor12 = isHeavy ? 4.5 : (isLight ? 2.2 : 3.2);
+  const proj90Min = Math.round(income * (factor90 - 0.2));
+  const proj90Max = Math.round(income * (factor90 + 0.2));
+  const proj12Min = Math.round(income * (factor12 - 0.5));
+  const proj12Max = Math.round(income * (factor12 + 0.5));
+
+  let newTopPercent = topPercent;
+  if (proj12Min >= bench.top1) newTopPercent = 1;
+  else if (proj12Min >= bench.top10) newTopPercent = 8;
+  else if (proj12Min >= bench.top25) newTopPercent = 20;
+  else if (proj12Min >= bench.median) newTopPercent = 45;
+
+  // Rich life connection
+  const goalMessages = {
+    house: `có đủ cashflow tích luỹ cho khoản trả trước căn nhà đầu tiên`,
+    school: `đủ 400-600 triệu/năm học phí trường quốc tế cho con mà không động vào quỹ khẩn cấp`,
+    travel: `có ngân sách 200-400 triệu/năm cho 4-6 chuyến du lịch nước ngoài`,
+    retire: `đặt nền móng đầu tiên cho kế hoạch nghỉ hưu trước 45`,
+    freedom: `có cashflow đủ để nói "không" với những công việc không yêu thích`,
+    parents: `lo được chi phí an dưỡng cơ bản cho bố mẹ ~15-30tr/tháng`,
+    business: `tích luỹ vốn khởi nghiệp đầu tiên + kinh nghiệm vận hành`,
+    fire: `bước đầu tiên trong hành trình FIRE — mục tiêu tài sản sinh lời đủ sống`
+  };
+  const primaryGoal = d.goals && d.goals[0];
+  const richLifeMsg = primaryGoal && goalMessages[primaryGoal]
+    ? `Với lộ trình trên, sau 12-18 tháng ${name} sẽ ${goalMessages[primaryGoal]}.`
+    : `Lộ trình này đặt nền cho những mục tiêu lớn hơn mà ${name} đã chọn.`;
+
+  return {
+    name, bench, income, topPercent, gapToTop10, quadInfo,
+    blockers: blockers.slice(0, 3),
+    roadmap,
+    projection: { proj90Min, proj90Max, proj12Min, proj12Max, newTopPercent },
+    richLifeMsg,
+    hours: d.hours
+  };
+}
+
+// ========== RESULT RENDERING ==========
+function showResult() {
+  const report = analyze(state.data);
+  const html = renderResult(report);
+  document.getElementById('result-content').innerHTML = html;
+  setScreen('screen-result');
+  launchConfetti();
+}
+
+function renderResult(r) {
+  const fmt = (n) => `${Number(n).toLocaleString('vi-VN')} triệu`;
+  return `
+    <div class="text-center mb-10 fade-up">
+      <div class="sticker mb-4">✨ Báo cáo hoàn thành</div>
+      <h1 class="display text-4xl md:text-5xl font-black mb-3 leading-tight">
+        Chào ${r.name}, đây là<br><span class="squiggle-underline">báo cáo thu nhập</span> của bạn
+      </h1>
+      <p class="text-[var(--ink-soft)]">Dựa trên 12 câu trả lời + dữ liệu 52.847 người Việt cùng ngành ${r.bench.label}</p>
+    </div>
+
+    <!-- Section 1: Position -->
+    <div class="card-chunky p-8 mb-6 report-section fade-up fade-up-1" style="background:var(--peach);">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-2xl">📍</span>
+        <span class="font-bold text-sm uppercase tracking-wide text-[var(--ink-soft)]">Vị trí hiện tại</span>
+      </div>
+      <h2 class="display text-3xl md:text-4xl font-black mb-6">
+        Bạn đang ở <span class="text-[var(--coral)]">TOP ${r.topPercent}%</span> ngành ${r.bench.label}
+      </h2>
+
+      <div class="space-y-1 mb-4">
+        <div class="rank-row"><span class="text-xs">Top 1%</span><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:100%"></div></div><span class="text-sm font-bold">${fmt(r.bench.top1)}+</span></div>
+        <div class="rank-row"><span class="text-xs">Top 10%</span><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:75%"></div></div><span class="text-sm font-bold">${fmt(r.bench.top10)}</span></div>
+        <div class="rank-row"><span class="text-xs">Top 25%</span><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:55%"></div></div><span class="text-sm font-bold">${fmt(r.bench.top25)}</span></div>
+        <div class="rank-row you"><span class="text-xs font-black">BẠN</span><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:${Math.max(10, Math.min(90, (r.income / r.bench.top1) * 100))}%"></div></div><span class="text-sm font-bold">${fmt(r.income)}</span></div>
+        <div class="rank-row"><span class="text-xs">Trung vị</span><div class="rank-bar-bg"><div class="rank-bar-fill" style="width:35%"></div></div><span class="text-sm font-bold">${fmt(r.bench.median)}</span></div>
+      </div>
+
+      <div class="bg-white border-[2.5px] border-[var(--ink)] rounded-2xl p-4 mt-4" style="box-shadow:3px 3px 0 var(--ink);">
+        <p class="font-semibold">💡 <b>Khoảng cách đến top 10%:</b> Bạn cần tăng thu nhập thêm <span class="text-[var(--coral)] font-black">${r.gapToTop10}x</span> — tức từ ${fmt(r.income)} lên ${fmt(r.bench.top10)}/tháng.</p>
+        <p class="text-sm text-[var(--ink-soft)] mt-2">Khoảng cách lớn — nhưng hoàn toàn đóng được trong 18-24 tháng nếu đi đúng hướng.</p>
+      </div>
+    </div>
+
+    <!-- Section 2: Quadrant -->
+    <div class="card-chunky p-8 mb-6 fade-up fade-up-2" style="background:var(--lavender);">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-2xl">💼</span>
+        <span class="font-bold text-sm uppercase tracking-wide text-[var(--ink-soft)]">Cashflow Quadrant (Kiyosaki)</span>
+      </div>
+      <h2 class="display text-3xl font-black mb-2">${r.quadInfo.icon} ${r.quadInfo.label}</h2>
+      <p class="text-[var(--ink-soft)] mb-6">${r.quadInfo.desc}</p>
+
+      <div class="quadrant-grid mb-4">
+        <div class="quadrant-cell ${state.data.quadrant === 'E' ? 'active' : ''}"><div class="text-2xl mb-1">💼</div><div class="font-black">E</div><div class="text-xs">Employee</div></div>
+        <div class="quadrant-cell ${state.data.quadrant === 'B' ? 'active' : ''}"><div class="text-2xl mb-1">🏢</div><div class="font-black">B</div><div class="text-xs">Business</div></div>
+        <div class="quadrant-cell ${state.data.quadrant === 'S' ? 'active' : ''}"><div class="text-2xl mb-1">🛠️</div><div class="font-black">S</div><div class="text-xs">Self-employed</div></div>
+        <div class="quadrant-cell ${state.data.quadrant === 'I' ? 'active' : ''}"><div class="text-2xl mb-1">📈</div><div class="font-black">I</div><div class="text-xs">Investor</div></div>
+      </div>
+
+      <div class="bg-white border-[2.5px] border-[var(--ink)] rounded-2xl p-4" style="box-shadow:3px 3px 0 var(--ink);">
+        <p class="font-semibold text-sm">🎯 <b>Mục tiêu dịch chuyển:</b> Chuyển dần sang <b>I + B</b> (tiền làm ra tiền, hệ thống thay bạn). Đây là con đường duy nhất để đạt tự do tài chính thật sự — không phải "lương cao hơn".</p>
+      </div>
+    </div>
+
+    <!-- Section 3: Blockers -->
+    <div class="mb-6 fade-up fade-up-3">
+      <div class="text-center mb-6">
+        <div class="sticker" style="background:var(--coral); color:white;">⚠️ 3 điểm nghẽn cá nhân</div>
+        <h2 class="display text-3xl md:text-4xl font-black mt-4">Đây là những gì đang NGĂN ${r.name}</h2>
+      </div>
+      ${r.blockers.map((b, i) => `
+        <div class="blocker-card mb-4">
+          <div class="flex items-start gap-4">
+            <div class="text-4xl flex-shrink-0">${b.emoji}</div>
+            <div class="flex-1">
+              <div class="text-xs font-bold uppercase tracking-wide text-[var(--coral)] mb-1">Điểm nghẽn #${i+1} · ${b.category}</div>
+              <h3 class="display text-xl md:text-2xl font-bold mb-3">${b.title}</h3>
+              <p class="text-sm md:text-base text-[var(--ink-soft)] leading-relaxed mb-3">${b.detail}</p>
+              <div class="bg-[var(--cream)] border-2 border-[var(--ink)] rounded-xl p-3 text-sm">
+                <b>💸 Chi phí nếu không làm gì:</b> ${b.cost}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Section 4: Roadmap -->
+    <div class="mb-6 fade-up fade-up-4">
+      <div class="text-center mb-6">
+        <div class="sticker" style="background:var(--forest); color:white;">🗺️ Lộ trình 90 ngày</div>
+        <h2 class="display text-3xl md:text-4xl font-black mt-4">
+          Thiết kế riêng cho <span class="squiggle-underline">${r.hours} giờ/tuần</span> của bạn
+        </h2>
+      </div>
+
+      ${['p1','p2','p3'].map((key, idx) => {
+        const p = r.roadmap[key];
+        const emoji = ['🚀','📦','💎'][idx];
+        return `
+          <div class="phase-card ${key}">
+            <div class="flex items-start gap-4 mb-5">
+              <div class="text-5xl">${emoji}</div>
+              <div class="flex-1">
+                <div class="text-xs font-bold uppercase tracking-wide text-[var(--ink-soft)]">Giai đoạn ${idx+1} · ${p.days}</div>
+                <h3 class="display text-2xl md:text-3xl font-black">${p.title}</h3>
+              </div>
+            </div>
+            ${p.weeks.map(w => `
+              <div class="week-card">
+                <div class="week-badge">${w.w}</div>
+                <div class="flex-1">
+                  <div class="font-bold text-sm mb-1">${w.focus}</div>
+                  <div class="text-sm text-[var(--ink-soft)] mb-1">${w.action}</div>
+                  <div class="text-xs font-semibold text-[var(--coral)]">✓ Output: ${w.output}</div>
+                </div>
+              </div>
+            `).join('')}
+            <div class="mt-4 bg-[var(--ink)] text-white rounded-2xl p-4 text-center">
+              <div class="text-xs font-bold uppercase tracking-wide opacity-70 mb-1">Kết quả dự kiến cuối giai đoạn</div>
+              <div class="display text-xl md:text-2xl font-black text-[var(--sunshine)]">${p.result}</div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- Section 5: Projection -->
+    <div class="card-chunky p-8 mb-6 fade-up" style="background:var(--sunshine);">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-2xl">🔮</span>
+        <span class="font-bold text-sm uppercase tracking-wide text-[var(--ink-soft)]">Dự báo thu nhập</span>
+      </div>
+      <h2 class="display text-3xl md:text-4xl font-black mb-6">Nếu ${r.name} thực hiện nghiêm túc...</h2>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div class="bg-white border-[2.5px] border-[var(--ink)] rounded-2xl p-5" style="box-shadow:4px 4px 0 var(--ink);">
+          <div class="text-xs font-bold uppercase tracking-wide text-[var(--ink-soft)]">Sau 90 ngày</div>
+          <div class="big-number text-3xl md:text-4xl text-[var(--coral)] mt-2">${fmt(r.projection.proj90Min)} - ${fmt(r.projection.proj90Max)}</div>
+          <div class="text-xs mt-1 text-[var(--ink-soft)]">/tháng (tăng ${(r.projection.proj90Min/r.income).toFixed(1)}-${(r.projection.proj90Max/r.income).toFixed(1)}x)</div>
+        </div>
+        <div class="bg-white border-[2.5px] border-[var(--ink)] rounded-2xl p-5" style="box-shadow:4px 4px 0 var(--ink);">
+          <div class="text-xs font-bold uppercase tracking-wide text-[var(--ink-soft)]">Sau 12 tháng</div>
+          <div class="big-number text-3xl md:text-4xl text-[var(--forest)] mt-2">${fmt(r.projection.proj12Min)} - ${fmt(r.projection.proj12Max)}</div>
+          <div class="text-xs mt-1 text-[var(--ink-soft)]">/tháng → lên TOP ${r.projection.newTopPercent}%</div>
+        </div>
+      </div>
+
+      <div class="bg-[var(--ink)] text-white rounded-2xl p-5">
+        <p class="text-sm opacity-80 mb-1">💝 Rich Life Connection:</p>
+        <p class="font-semibold">${r.richLifeMsg}</p>
+      </div>
+    </div>
+
+    <!-- Section 6: Next Action -->
+    <div class="card-chunky p-8 mb-6 fade-up" style="background:var(--peach);">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-2xl">⚡</span>
+        <span class="font-bold text-sm uppercase tracking-wide text-[var(--ink-soft)]">Hành động trong 24h tới</span>
+      </div>
+      <h2 class="display text-2xl md:text-3xl font-black mb-3">1 việc duy nhất ${r.name} cần làm hôm nay</h2>
+      <p class="text-base mb-3">📝 <b>Liệt kê 10 kỹ năng bạn đã thành thạo</b> trong công việc hiện tại — viết ra giấy, không cần đẹp, không cần hoàn hảo.</p>
+      <p class="text-sm text-[var(--ink-soft)]">Đây là nguyên liệu thô để Giai đoạn 1 hoạt động. Không có bước này, mọi thứ phía sau đều chỉ là kế hoạch trên giấy.</p>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="card-chunky p-8 mb-6 fade-up" style="background:var(--ink); color:white;">
+      <div class="text-center mb-6">
+        <div class="inline-block bg-[var(--sunshine)] text-[var(--ink)] px-4 py-1 rounded-full border-2 border-white font-bold text-xs uppercase tracking-wide mb-4">🎁 Ưu đãi đặc biệt</div>
+        <h2 class="display text-3xl md:text-4xl font-black mb-3">${r.name} muốn thực hiện lộ trình này cùng ai?</h2>
+        <p class="opacity-80 mb-6">87% người tự làm một mình sẽ bỏ cuộc trong 60 ngày. Đừng nằm trong 87% đó.</p>
+      </div>
+
+      <div class="bg-white text-[var(--ink)] rounded-2xl p-6 mb-4">
+        <h3 class="display text-2xl font-black mb-3">💎 Income Sprint 90 ngày</h3>
+        <div class="space-y-2 text-sm mb-4">
+          <div>✅ Lộ trình chi tiết video + PDF <span class="text-[var(--ink-soft)]">[trị giá 5.000.000đ]</span></div>
+          <div>✅ 50+ template thực chiến <span class="text-[var(--ink-soft)]">[trị giá 3.000.000đ]</span></div>
+          <div>✅ Cộng đồng Zalo + weekly review <span class="text-[var(--ink-soft)]">[trị giá 6.000.000đ]</span></div>
+          <div>✅ 1-1 call chiến lược với mentor <span class="text-[var(--ink-soft)]">[trị giá 5.000.000đ]</span></div>
+          <div>✅ Báo cáo Thu Nhập Pro 100 trang <span class="text-[var(--ink-soft)]">[trị giá 1.000.000đ]</span></div>
+        </div>
+        <div class="border-t-2 border-dashed border-[var(--ink)] pt-3">
+          <div class="text-sm text-[var(--ink-soft)]">Tổng giá trị: <s>20.000.000đ</s></div>
+          <div class="display text-4xl font-black text-[var(--coral)]">2.900.000đ</div>
+          <div class="text-xs text-[var(--ink-soft)]">🛡️ Bảo chứng hoàn 100% trong 30 ngày nếu không hài lòng</div>
+        </div>
+      </div>
+
+      <button class="btn-primary w-full justify-center" onclick="showPricing()">
+        🔥 Đăng ký Income Sprint ngay
+      </button>
+    </div>
+
+    <!-- Exit escape -->
+    <div class="card-chunky p-6 mb-6 fade-up">
+      <h3 class="display text-xl font-bold mb-4 text-center">Chưa sẵn sàng? 3 lựa chọn miễn phí:</h3>
+      <div class="space-y-3">
+        <button class="option-card" onclick="alert('Demo: Tải PDF báo cáo về máy')"><span class="emoji">📥</span><div><div>Tải PDF báo cáo về máy</div><div class="hint">Miễn phí, không cần cam kết</div></div></button>
+        <button class="option-card" onclick="alert('Demo: Mở link Zalo Community')"><span class="emoji">💬</span><div><div>Tham gia Zalo Community "5.000 người tăng thu nhập"</div><div class="hint">Miễn phí, học miễn phí mỗi tuần</div></div></button>
+        <button class="option-card" onclick="alert('Demo: Mở Calendly đặt lịch 1-1')"><span class="emoji">📞</span><div><div>Đặt lịch call 1-1 với chuyên gia (30 phút)</div><div class="hint">Miễn phí, giới hạn 10 slot/tuần</div></div></button>
+      </div>
+    </div>
+
+    <div class="text-center py-8 text-xs text-[var(--ink-soft)]">
+      <p>💝 Thank you ${r.name} — em tin bạn sẽ làm được.</p>
+      <p class="mt-2">© 2026 Thu Nhập AI · Đây là báo cáo chiến lược, không phải lời khuyên đầu tư cá nhân.</p>
+      <button class="btn-ghost mt-4" onclick="restart()">↻ Làm lại từ đầu</button>
+    </div>
+  `;
+}
+
+function restart() {
+  state.currentQ = 0;
+  state.data = { quadrant: null, industry: null, experience: null, income: null, sources: [], goals: [], target: null, blocker: null, savings: null, streams: null, assets: [], hours: null, name: '' };
+  setScreen('screen-landing');
+}
+
+// ========== CONFETTI ==========
+function launchConfetti() {
+  const colors = ['#FF5B4E', '#FFC043', '#2D6B4F', '#E8D5F2', '#FFE5D4'];
+  for (let i = 0; i < 50; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = (Math.random() * 1) + 's';
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 5000);
+  }
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  // Start with landing visible
+});
+
+// ============================================================
+// PAYMENT CONFIG — Anh sửa ở đây khi đổi tài khoản nhận tiền
+// ============================================================
+const PAYMENT_CONFIG = {
+  bankCode: 'MB',              // Mã ngân hàng VietQR (MB, VCB, TCB, TPB, ACB...)
+  accountNo: '0888777001',     // Số tài khoản nhận
+  accountName: 'NGUYEN THANH TU', // Tên chủ tài khoản (không dấu, in hoa)
+  template: 'compact2'         // Template QR: compact | compact2 | qr_only | print
+};
+
+// ============================================================
+// LEAD CAPTURE ENDPOINT
+// Anh đăng ký Formspree.io (miễn phí) và dán URL vào đây
+// Hoặc dùng Google Apps Script Web App — em hướng dẫn cuối file
+// ============================================================
+const LEAD_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID_HERE';
+
+// ============================================================
+// PACKAGES (Value Ladder - Russell Brunson)
+// ============================================================
+const packages = {
+  starter: {
+    id: 'starter',
+    emoji: '🌱',
+    name: 'Income Starter',
+    tagline: 'Bắt đầu hành trình',
+    price: 990000,
+    originalPrice: 4900000,
+    features: [
+      'Báo cáo Thu Nhập Pro PDF 100 trang',
+      'Lộ trình 90 ngày chi tiết',
+      'Cộng đồng Zalo Community',
+      '10+ template thực chiến',
+      'Email support 30 ngày'
+    ],
+    notIncluded: [
+      '1-1 call với mentor',
+      'Weekly review',
+      'Mastermind group'
+    ]
+  },
+  sprint: {
+    id: 'sprint',
+    emoji: '🚀',
+    name: 'Income Sprint',
+    tagline: '🔥 Best value — Khuyến nghị',
+    price: 2900000,
+    originalPrice: 20000000,
+    popular: true,
+    features: [
+      'Tất cả từ Income Starter',
+      '50+ template thực chiến pro',
+      'Weekly group review với mentor',
+      '1-1 call chiến lược 60 phút',
+      'Priority Zalo support (24h)',
+      'Lifetime access tài liệu',
+      '🎁 Bonus: Master Prompt Engineering'
+    ]
+  },
+  mastery: {
+    id: 'mastery',
+    emoji: '👑',
+    name: 'Income Mastery',
+    tagline: 'Bứt phá toàn diện',
+    price: 9900000,
+    originalPrice: 50000000,
+    features: [
+      'Tất cả từ Income Sprint',
+      '12 tuần coaching 1-1 với Alan Tú',
+      'Mastermind group 20 người',
+      'Direct Zalo với Alan (24h)',
+      'Custom lộ trình cá nhân hoá',
+      'Hỗ trợ setup chiến lược đầu tư cá nhân',
+      '🎁 Bonus: 6 tháng tư vấn dòng tiền',
+      '🛡️ Bảo chứng kết quả 90 ngày'
+    ]
+  }
+};
+
+// Extend state with order
+state.order = {
+  package: 'sprint',
+  orderBump: false,
+  customer: { name: '', email: '', phone: '' },
+  upsellVIP: false
+};
+
+// ============================================================
+// PRICING SCREEN
+// ============================================================
+function showPricing() {
+  // Pre-fill customer name from report data
+  if (state.data.name && !state.order.customer.name) {
+    state.order.customer.name = state.data.name;
+  }
+  renderPricing();
+  setScreen('screen-pricing');
+  startCountdown();
+}
+
+function selectPackage(id) {
+  state.order.package = id;
+  renderPricing();
+}
+
+function toggleOrderBump() {
+  state.order.orderBump = !state.order.orderBump;
+  renderPricing();
+}
+
+function calculateTotal() {
+  const pkg = packages[state.order.package];
+  const bump = state.order.orderBump ? 299000 : 0;
+  const vip = state.order.upsellVIP ? 4900000 : 0;
+  return pkg.price + bump + vip;
+}
+
+function formatVND(n) {
+  return Number(n).toLocaleString('vi-VN') + 'đ';
+}
+
+function renderPricing() {
+  const container = document.getElementById('pricing-cards-container');
+  if (!container) return;
+
+  const html = Object.values(packages).map(pkg => {
+    const isSelected = state.order.package === pkg.id;
+    const isPopular = pkg.popular;
+    const classes = ['pricing-card'];
+    if (isSelected) classes.push('selected');
+    if (isPopular) classes.push('popular');
+
+    return `
+      <div class="${classes.join(' ')}" onclick="selectPackage('${pkg.id}')">
+        ${isPopular ? '<div class="pricing-badge">🔥 Phổ biến nhất</div>' : ''}
+        <div class="text-center mb-4">
+          <div style="font-size: 48px;" class="mb-2">${pkg.emoji}</div>
+          <h3 class="display text-2xl font-black">${pkg.name}</h3>
+          <p class="text-xs text-[var(--ink-soft)] mt-1">${pkg.tagline}</p>
+        </div>
+        <div class="text-center mb-4">
+          <div class="text-xs text-[var(--ink-soft)]"><s>${formatVND(pkg.originalPrice)}</s></div>
+          <div class="display text-4xl font-black text-[var(--coral)]">${formatVND(pkg.price)}</div>
+        </div>
+        <ul class="pricing-features">
+          ${pkg.features.map(f => `<li class="included">${f}</li>`).join('')}
+          ${(pkg.notIncluded || []).map(f => `<li class="not-included">${f}</li>`).join('')}
+        </ul>
+        <div class="text-center" style="margin-top: auto;">
+          <div class="btn-primary" style="width:100%; justify-content:center; ${isSelected ? '' : 'background: white; color: var(--ink);'}">${isSelected ? '✓ Đã chọn' : 'Chọn gói này'}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = html;
+
+  // Order bump
+  const bumpContainer = document.getElementById('order-bump-container');
+  if (bumpContainer) {
+    bumpContainer.innerHTML = `
+      <div class="order-bump-card ${state.order.orderBump ? 'selected' : ''}" onclick="toggleOrderBump()">
+        <div class="bump-checkbox"></div>
+        <div class="flex-1">
+          <div class="text-xs font-bold uppercase" style="color: var(--coral); letter-spacing: 0.05em;">⚡ Đề xuất — Chỉ thêm 299k</div>
+          <div class="font-bold mt-1">Playbook "50 Cách Tăng Thu Nhập 2026"</div>
+          <div class="text-sm text-[var(--ink-soft)] mt-1">PDF 80 trang · Giá thường 1.990.000đ · Chỉ khi mua kèm hôm nay</div>
+        </div>
+        <div class="display text-2xl font-black text-[var(--coral)]" style="flex-shrink:0;">+299k</div>
+      </div>
+    `;
+  }
+
+  // Total display
+  const totalEl = document.getElementById('pricing-total');
+  if (totalEl) totalEl.textContent = formatVND(calculateTotal());
+}
+
+// ============================================================
+// CHECKOUT SCREEN
+// ============================================================
+function proceedToCheckout() {
+  renderCheckout();
+  setScreen('screen-checkout');
+}
+
+function renderCheckout() {
+  // Pre-fill name from report
+  const nameInput = document.getElementById('customer-name');
+  if (nameInput && state.data.name) {
+    nameInput.value = state.data.name;
+    state.order.customer.name = state.data.name;
+  }
+
+  // Render order summary
+  const pkg = packages[state.order.package];
+  let summaryHtml = `
+    <div class="order-row">
+      <span>${pkg.emoji} ${pkg.name}</span>
+      <span>${formatVND(pkg.price)}</span>
+    </div>
+  `;
+  if (state.order.orderBump) {
+    summaryHtml += `
+      <div class="order-row">
+        <span>+ Playbook 50 cách tăng thu nhập</span>
+        <span>+299.000đ</span>
+      </div>
+    `;
+  }
+  summaryHtml += `
+    <div class="order-row total">
+      <span>TỔNG THANH TOÁN:</span>
+      <span class="amount">${formatVND(calculateTotal())}</span>
+    </div>
+  `;
+
+  const summaryEl = document.getElementById('order-summary-content');
+  if (summaryEl) summaryEl.innerHTML = summaryHtml;
+
+  updateQRDisplay();
+}
+
+function updateCustomerField(field, value) {
+  state.order.customer[field] = value.trim();
+  updateQRDisplay();
+}
+
+function generateTransferCode() {
+  const phone = state.order.customer.phone || '';
+  const digitsOnly = phone.replace(/\D/g, '');
+  const last4 = digitsOnly.slice(-4) || '0000';
+  return 'TNSP' + last4;
+}
+
+function buildVietQRUrl() {
+  const amount = calculateTotal();
+  const code = generateTransferCode();
+  const addInfo = encodeURIComponent(code);
+  const name = encodeURIComponent(PAYMENT_CONFIG.accountName);
+  return `https://img.vietqr.io/image/${PAYMENT_CONFIG.bankCode}-${PAYMENT_CONFIG.accountNo}-${PAYMENT_CONFIG.template}.png?amount=${amount}&addInfo=${addInfo}&accountName=${name}`;
+}
+
+function updateQRDisplay() {
+  const c = state.order.customer;
+  const hasCustomerInfo = c.name && c.email && c.phone && c.phone.replace(/\D/g, '').length >= 9;
+
+  const qrImg = document.getElementById('qr-image');
+  const qrSkeleton = document.getElementById('qr-skeleton');
+  const amountEl = document.getElementById('transfer-amount');
+  const codeEl = document.getElementById('transfer-code');
+  const confirmBtn = document.getElementById('confirm-payment-btn');
+
+  if (amountEl) amountEl.textContent = formatVND(calculateTotal());
+  if (codeEl) codeEl.textContent = generateTransferCode();
+
+  if (hasCustomerInfo) {
+    if (qrImg) {
+      qrImg.src = buildVietQRUrl();
+      qrImg.style.display = 'block';
+    }
+    if (qrSkeleton) qrSkeleton.style.display = 'none';
+    if (confirmBtn) confirmBtn.disabled = false;
+  } else {
+    if (qrImg) qrImg.style.display = 'none';
+    if (qrSkeleton) qrSkeleton.style.display = 'block';
+    if (confirmBtn) confirmBtn.disabled = true;
+  }
+}
+
+// ============================================================
+// SUBMIT ORDER (Lead capture + Confirmation)
+// ============================================================
+async function submitOrder() {
+  const btn = document.getElementById('confirm-payment-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Đang xử lý...';
+  }
+
+  // Prepare full payload — TOÀN BỘ data để anh upsell sau
+  const payload = {
+    // ==== Report data ====
+    reportName: state.data.name || '',
+    industry: state.data.industry || '',
+    experience: state.data.experience || '',
+    currentIncome: state.data.income || 0,
+    incomeSources: (state.data.sources || []).join(', '),
+    quadrant: state.data.quadrant || '',
+    richLifeGoals: (state.data.goals || []).join(', '),
+    targetIncome: state.data.target || 0,
+    mainBlocker: state.data.blocker || '',
+    savingsRate: state.data.savings ?? '',
+    incomeStreams: state.data.streams || 0,
+    assets: (state.data.assets || []).join(', '),
+    weeklyHours: state.data.hours || 0,
+    // ==== Customer info ====
+    customerName: state.order.customer.name,
+    customerEmail: state.order.customer.email,
+    customerPhone: state.order.customer.phone,
+    // ==== Order info ====
+    package: state.order.package,
+    packageName: packages[state.order.package].name,
+    packagePrice: packages[state.order.package].price,
+    orderBump: state.order.orderBump ? 'YES' : 'NO',
+    totalAmount: calculateTotal(),
+    transferCode: generateTransferCode(),
+    // ==== Metadata ====
+    timestamp: new Date().toISOString(),
+    source: window.location.hostname,
+    userAgent: navigator.userAgent.substring(0, 200)
+  };
+
+  // Try to send to lead endpoint (fail silently if not configured)
+  try {
+    if (LEAD_ENDPOINT && !LEAD_ENDPOINT.includes('YOUR_FORM_ID_HERE')) {
+      await fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+  } catch (err) {
+    console.warn('[Thu Nhập AI] Lead save failed:', err);
+    // Không block user - họ đã chuyển tiền rồi
+  }
+
+  // Log to console for debugging
+  console.log('[Thu Nhập AI] Order submitted:', payload);
+
+  // Show confirmation
+  renderConfirmation();
+  setScreen('screen-confirmation');
+  launchConfetti();
+}
+
+function renderConfirmation() {
+  const msg = document.getElementById('confirmation-message');
+  if (msg && state.order.customer.name) {
+    msg.innerHTML = `Anh Alan đã nhận được thông tin đơn hàng <b>#${generateTransferCode()}</b> của <b>${state.order.customer.name}</b>.`;
+  }
+}
+
+function upsellVIP() {
+  const modal = document.getElementById('vip-modal');
+  if (!modal) return;
+
+  // Generate VIP QR with unique transfer code
+  const phone = state.order.customer.phone || '';
+  const last4 = phone.replace(/\D/g, '').slice(-4) || '0000';
+  const vipCode = 'TNVIP' + last4;
+  const vipAmount = 4900000;
+
+  const vipQRUrl = `https://img.vietqr.io/image/${PAYMENT_CONFIG.bankCode}-${PAYMENT_CONFIG.accountNo}-${PAYMENT_CONFIG.template}.png?amount=${vipAmount}&addInfo=${encodeURIComponent(vipCode)}&accountName=${encodeURIComponent(PAYMENT_CONFIG.accountName)}`;
+
+  const qrImg = document.getElementById('vip-qr-image');
+  const codeEl = document.getElementById('vip-transfer-code');
+  if (qrImg) qrImg.src = vipQRUrl;
+  if (codeEl) codeEl.textContent = vipCode;
+
+  // Open modal
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVIPModal() {
+  const modal = document.getElementById('vip-modal');
+  if (modal) modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function handleModalBackdrop(event) {
+  // Close modal if clicking on overlay (not modal card)
+  if (event.target.id === 'vip-modal') {
+    closeVIPModal();
+  }
+}
+
+async function confirmVIPPayment() {
+  state.order.upsellVIP = true;
+
+  const phone = state.order.customer.phone || '';
+  const last4 = phone.replace(/\D/g, '').slice(-4) || '0000';
+  const vipCode = 'TNVIP' + last4;
+
+  // Submit VIP upgrade lead
+  const payload = {
+    action: 'VIP_UPGRADE',
+    customerName: state.order.customer.name,
+    customerEmail: state.order.customer.email,
+    customerPhone: state.order.customer.phone,
+    originalPackage: packages[state.order.package].name,
+    originalTransferCode: generateTransferCode(),
+    vipAmount: 4900000,
+    vipTransferCode: vipCode,
+    totalPaid: calculateTotal() + 4900000,
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    if (LEAD_ENDPOINT && !LEAD_ENDPOINT.includes('YOUR_FORM_ID_HERE')) {
+      await fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+  } catch (err) {
+    console.warn('[Thu Nhập AI] VIP upgrade save failed:', err);
+  }
+
+  console.log('[Thu Nhập AI] VIP upgrade submitted:', payload);
+
+  closeVIPModal();
+  launchConfetti();
+
+  // Transform upsell box into success message
+  const upsellBox = document.querySelector('#screen-confirmation .upsell-box');
+  if (upsellBox) {
+    upsellBox.style.background = 'var(--forest)';
+    upsellBox.style.color = 'white';
+    upsellBox.innerHTML = `
+      <div class="text-center" style="padding: 20px 0;">
+        <div style="font-size: 72px; line-height: 1;">👑✨</div>
+        <h2 class="display text-3xl font-black mt-3 mb-3" style="color: var(--sunshine);">Chào mừng thành viên VIP!</h2>
+        <p style="font-size: 15px; line-height: 1.6;">
+          Anh Alan đã nhận thông tin nâng cấp của bạn.<br>
+          Trong <b>15 phút tới</b>, anh sẽ liên hệ Zalo <b>${state.order.customer.phone}</b> để xác nhận và bắt đầu lột rình VIP của bạn.
+        </p>
+      </div>
+    `;
+    upsellBox.style.setProperty('--coral', '#FFC043');
+    // Remove the ::before label
+    const style = document.createElement('style');
+    style.textContent = '#screen-confirmation .upsell-box::before { display: none !important; }';
+    document.head.appendChild(style);
+  }
+
+  // Scroll to top to show success
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('vip-modal');
+    if (modal && modal.classList.contains('active')) {
+      closeVIPModal();
+    }
+  }
+});
+
+// ============================================================
+// COUNTDOWN TIMER (ends at 23:59:59 today)
+// ============================================================
+let countdownInterval = null;
+function startCountdown() {
+  if (countdownInterval) return; // already running
+
+  function update() {
+    const el = document.getElementById('countdown-timer');
+    if (!el) return;
+    const now = new Date();
+    const end = new Date(now);
+    end.setHours(23, 59, 59, 999);
+    const diff = end - now;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+  update();
+  countdownInterval = setInterval(update, 1000);
+}
+</script>
+</body>
+</html>
