@@ -1,0 +1,725 @@
+{
+  "name": "Phễu Lead Magnet — Claude + Salekit.io",
+  "nodes": [
+    {
+      "id": "s0",
+      "name": "note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        -180
+      ],
+      "parameters": {
+        "content": "# 🚀 PHỄU LEAD MAGNET — Claude + Salekit.io  (Khoá học Phễu)\nMột cú bấm: **nhập chủ đề → ra Ebook + bộ ảnh carousel + caption → đăng đa kênh → lead vào CRM + up-sell.**\n\n**Thứ tự cài đặt (xem `SETUP.md`):** 1) Import workflow  2) Tạo 5 credential  3) Sửa node **2. Cau hinh**  4) Bấm *Test workflow* và điền form  5) Go-live.\n**Mẹo dạy học:** mỗi giai đoạn = 1 buổi học. Học viên chỉ sửa node **2. Cau hinh** và prompt ở node **3**.",
+        "height": 230,
+        "width": 1400,
+        "color": 6
+      }
+    },
+    {
+      "id": "s1",
+      "name": "note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        80
+      ],
+      "parameters": {
+        "content": "## 🎯 GIAI ĐOẠN 1 — TẠO MỒI BẰNG CLAUDE\nForm nhập chủ đề/avatar → **Cấu hình** (sửa biến tại đây) → dựng prompt → **Claude (claude-opus-4-8)** sinh JSON (ebook + carousel + caption) → bóc tách + dựng HTML.\n👉 Trước khi chạy: tạo credential **Header Auth** `x-api-key` cho Claude. Xem `SETUP.md`.",
+        "height": 170,
+        "width": 760,
+        "color": 4
+      }
+    },
+    {
+      "id": "s2",
+      "name": "note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        720,
+        80
+      ],
+      "parameters": {
+        "content": "## 🖼️ GIAI ĐOẠN 2 — RENDER ẤN PHẨM\nEbook → **PDF** (APITemplate.io). Carousel → tách từng slide → dựng HTML → **ảnh 1080×1080** (htmlcsstoimage.com) → gom mảng ảnh.\n👉 Cần 2 credential: *Render API (X-API-KEY)* và *Image API (hcti.io – Basic Auth)*. Có thể đổi nhà cung cấp ở node **2. Cau hinh**.",
+        "height": 170,
+        "width": 1100,
+        "color": 5
+      }
+    },
+    {
+      "id": "s3",
+      "name": "note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2040,
+        80
+      ],
+      "parameters": {
+        "content": "## 📣 GIAI ĐOẠN 3 — ĐĂNG ĐA KÊNH & ĐẨY VÀO PHỄU\n**Publisher** (Ayrshare) đăng carousel lên FB/IG/TikTok để hút traffic mới vào đầu phễu.\n**Salekit**: tạo audience + gắn tag (kích hoạt automation) → gửi mồi + mở đường **up-sell** qua Email/ZNS Zalo OA (kênh sở hữu).\n👉 Credential: *Publisher Bearer* và *Salekit Token*.",
+        "height": 200,
+        "width": 900,
+        "color": 3
+      }
+    },
+    {
+      "id": "n1",
+      "name": "1. Form chu de & avatar",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        300
+      ],
+      "parameters": {
+        "formTitle": "Tạo sản phẩm mồi (Lead Magnet) bằng AI",
+        "formDescription": "Nhập chủ đề/nỗi đau → hệ thống dùng Claude sinh Ebook + Carousel + caption, render ảnh/PDF, rồi đăng đa kênh và đẩy lead vào Salekit. Mẹo: mô tả càng cụ thể nỗi đau & avatar, mồi càng 'cắn câu'.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Chu de hoac noi dau",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "VD: Người đi làm muốn dùng AI tăng thu nhập nhưng không biết bắt đầu từ đâu"
+            },
+            {
+              "fieldLabel": "Avatar khach hang",
+              "fieldType": "text",
+              "placeholder": "VD: Nhân viên văn phòng 25-40 tuổi, bận, muốn thu nhập 2-5 lần"
+            },
+            {
+              "fieldLabel": "San pham up-sell",
+              "fieldType": "text",
+              "placeholder": "VD: Khoá VIP 1-1 cùng Alan Tú"
+            },
+            {
+              "fieldLabel": "Thuong hieu",
+              "fieldType": "text",
+              "placeholder": "Thu Nhập AI"
+            },
+            {
+              "fieldLabel": "Link pheu",
+              "fieldType": "text",
+              "placeholder": "https://thunhap.vn"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "pheu-lead-magnet-form-01"
+    },
+    {
+      "id": "n2",
+      "name": "2. Cau hinh",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -140,
+        300
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a-chu_de",
+              "name": "chu_de",
+              "value": "={{ $json['Chu de hoac noi dau'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a-avatar",
+              "name": "avatar",
+              "value": "={{ $json['Avatar khach hang'] || 'Người đi làm 25-40 tuổi, muốn dùng AI để tăng thu nhập 2-5 lần' }}",
+              "type": "string"
+            },
+            {
+              "id": "a-upsell",
+              "name": "upsell",
+              "value": "={{ $json['San pham up-sell'] || 'Khoá VIP 1-1 cùng Alan Tú' }}",
+              "type": "string"
+            },
+            {
+              "id": "a-brand",
+              "name": "brand",
+              "value": "={{ $json['Thuong hieu'] || 'Thu Nhập AI' }}",
+              "type": "string"
+            },
+            {
+              "id": "a-funnel_url",
+              "name": "funnel_url",
+              "value": "={{ $json['Link pheu'] || 'https://thunhap.vn' }}",
+              "type": "string"
+            },
+            {
+              "id": "a-ANTHROPIC_URL",
+              "name": "ANTHROPIC_URL",
+              "value": "https://api.anthropic.com/v1/messages",
+              "type": "string"
+            },
+            {
+              "id": "a-ANTHROPIC_MODEL",
+              "name": "ANTHROPIC_MODEL",
+              "value": "claude-opus-4-8",
+              "type": "string"
+            },
+            {
+              "id": "a-ANTHROPIC_VERSION",
+              "name": "ANTHROPIC_VERSION",
+              "value": "2023-06-01",
+              "type": "string"
+            },
+            {
+              "id": "a-PDF_ENDPOINT",
+              "name": "PDF_ENDPOINT",
+              "value": "https://rest.apitemplate.io/v2/create-pdf-from-html",
+              "type": "string"
+            },
+            {
+              "id": "a-IMAGE_ENDPOINT",
+              "name": "IMAGE_ENDPOINT",
+              "value": "https://hcti.io/v1/image",
+              "type": "string"
+            },
+            {
+              "id": "a-PUBLISHER_URL",
+              "name": "PUBLISHER_URL",
+              "value": "https://api.ayrshare.com/api/post",
+              "type": "string"
+            },
+            {
+              "id": "a-CHANNELS_FEED",
+              "name": "CHANNELS_FEED",
+              "value": "={{ ['facebook','instagram','tiktok'] }}",
+              "type": "array"
+            },
+            {
+              "id": "a-SALEKIT_BASE",
+              "name": "SALEKIT_BASE",
+              "value": "https://api.salekit.io/api/v1",
+              "type": "string"
+            },
+            {
+              "id": "a-test_lead_name",
+              "name": "test_lead_name",
+              "value": "Khach test",
+              "type": "string"
+            },
+            {
+              "id": "a-test_lead_email",
+              "name": "test_lead_email",
+              "value": "test@example.com",
+              "type": "string"
+            },
+            {
+              "id": "a-test_lead_phone",
+              "name": "test_lead_phone",
+              "value": "0900000000",
+              "type": "string"
+            },
+            {
+              "id": "a-c_cream",
+              "name": "c_cream",
+              "value": "#FFF8EE",
+              "type": "string"
+            },
+            {
+              "id": "a-c_coral",
+              "name": "c_coral",
+              "value": "#FF5B4E",
+              "type": "string"
+            },
+            {
+              "id": "a-c_forest",
+              "name": "c_forest",
+              "value": "#1F4B36",
+              "type": "string"
+            },
+            {
+              "id": "a-c_sun",
+              "name": "c_sun",
+              "value": "#FFC043",
+              "type": "string"
+            },
+            {
+              "id": "a-c_ink",
+              "name": "c_ink",
+              "value": "#1A1510",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "n3",
+      "name": "3. Build prompt Claude",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Dựng request body cho Claude API (structured outputs).\n// Sửa SYSTEM / USER ở đây để đổi \"giọng\" và công thức mồi.\nconst cfg = $json; // đến từ node \"2. Cau hinh\"\n\nconst schema = {\n  type: \"object\", additionalProperties: false,\n  properties: {\n    meta: { type: \"object\", additionalProperties: false,\n      properties: {\n        avatar: { type: \"string\" },\n        noi_dau: { type: \"string\" },\n        loi_hua: { type: \"string\" },\n        bang_chung: { type: \"string\" },\n        cau_noi_upsell: { type: \"string\" }\n      },\n      required: [\"avatar\",\"noi_dau\",\"loi_hua\",\"bang_chung\",\"cau_noi_upsell\"] },\n    ebook: { type: \"object\", additionalProperties: false,\n      properties: {\n        tieu_de: { type: \"string\" },\n        phu_de: { type: \"string\" },\n        loi_hua_trang_bia: { type: \"string\" },\n        chuong: { type: \"array\", items: { type: \"object\", additionalProperties: false,\n          properties: { tieu_de: { type: \"string\" }, noi_dung_md: { type: \"string\" } },\n          required: [\"tieu_de\",\"noi_dung_md\"] } },\n        cta: { type: \"string\" }\n      },\n      required: [\"tieu_de\",\"phu_de\",\"loi_hua_trang_bia\",\"chuong\",\"cta\"] },\n    carousel: { type: \"object\", additionalProperties: false,\n      properties: {\n        slides: { type: \"array\", items: { type: \"object\", additionalProperties: false,\n          properties: {\n            so_thu_tu: { type: \"integer\" },\n            tieu_de: { type: \"string\" },\n            noi_dung: { type: \"string\" },\n            ghi_chu_hinh_anh: { type: \"string\" }\n          },\n          required: [\"so_thu_tu\",\"tieu_de\",\"noi_dung\",\"ghi_chu_hinh_anh\"] } },\n        caption: { type: \"string\" },\n        hashtags: { type: \"array\", items: { type: \"string\" } }\n      },\n      required: [\"slides\",\"caption\",\"hashtags\"] },\n    caption_kenh: { type: \"object\", additionalProperties: false,\n      properties: {\n        facebook: { type: \"string\" },\n        zalo_oa: { type: \"string\" },\n        tiktok: { type: \"string\" },\n        instagram: { type: \"string\" },\n        threads: { type: \"string\" }\n      },\n      required: [\"facebook\",\"zalo_oa\",\"tiktok\",\"instagram\",\"threads\"] }\n  },\n  required: [\"meta\",\"ebook\",\"carousel\",\"caption_kenh\"]\n};\n\nconst SYSTEM = [\n  \"Bạn là chuyên gia thiết kế phễu (funnel) và copywriter direct-response người Việt,\",\n  \"chuyên tạo SẢN PHẨM MỒI (lead magnet) chuyển đổi cao cho coach/doanh nghiệp nhỏ.\",\n  \"Nguyên tắc: bám đúng nỗi đau của avatar, hứa 1 kết quả CỤ THỂ & nhanh, cho giá trị thật,\",\n  \"không lý thuyết suông, dùng ví dụ Việt Nam, văn phong gần gũi nhưng sắc bén.\",\n  \"Mọi nội dung phải dẫn người đọc về đầu phễu rồi mở đường cho up-sell một cách tự nhiên.\",\n  \"Trả về DUY NHẤT JSON đúng schema, viết hoàn toàn bằng tiếng Việt có dấu.\"\n].join(\" \");\n\nconst USER = [\n  \"Hãy tạo MỘT bộ sản phẩm mồi hoàn chỉnh dựa trên thông tin sau:\",\n  \"\",\n  \"- Chủ đề / nỗi đau: \" + cfg.chu_de,\n  \"- Avatar khách hàng: \" + cfg.avatar,\n  \"- Thương hiệu: \" + cfg.brand,\n  \"- Sản phẩm/dịch vụ up-sell: \" + cfg.upsell,\n  \"- Link đầu phễu (CTA): \" + cfg.funnel_url,\n  \"\",\n  \"YÊU CẦU CHI TIẾT:\",\n  \"1) meta: chốt lại avatar, noi_dau (1 câu), loi_hua (1 câu, kết quả cụ thể), bang_chung\",\n  \"   (lý do tin được), cau_noi_upsell (câu chuyển tiếp sang \" + cfg.upsell + \").\",\n  \"2) ebook (ấn phẩm số): tiêu đề giật nhưng đúng sự thật, phụ đề, lời hứa trang bìa,\",\n  \"   5-7 chương. Mỗi chương noi_dung_md viết bằng Markdown (dùng ## tiêu đề phụ, '- ' gạch đầu dòng,\",\n  \"   **in đậm**), 120-220 từ, có bước hành động làm được ngay. Kết bằng cta dẫn về \" + cfg.funnel_url + \".\",\n  \"3) carousel: 7 slide đăng mạng xã hội. Slide 1 = hook chặn ngón tay; 5 slide giá trị (mỗi slide 1 ý,\",\n  \"   tieu_de <= 8 từ, noi_dung <= 40 từ); slide cuối = CTA về phễu. Mỗi slide có ghi_chu_hinh_anh\",\n  \"   gợi ý hình. Kèm caption tổng và 8-12 hashtags tiếng Việt + tiếng Anh không dấu '#'.\",\n  \"4) caption_kenh: viết caption RIÊNG, đúng văn phong từng kênh: facebook (kể chuyện, có CTA),\",\n  \"   zalo_oa (tin nhắn chăm sóc ngắn gọn lịch sự, có link tải), tiktok (lời thoại hook 3 giây đầu),\",\n  \"   instagram (ngắn + emoji + hashtag), threads (đối thoại, khơi tranh luận).\",\n  \"Chỉ trả về JSON đúng schema, không thêm lời dẫn.\"\n].join(\"\\n\");\n\nconst body = {\n  model: cfg.ANTHROPIC_MODEL,\n  max_tokens: 16000,\n  thinking: { type: \"adaptive\" },\n  output_config: { effort: \"high\", format: { type: \"json_schema\", schema: schema } },\n  system: SYSTEM,\n  messages: [{ role: \"user\", content: USER }]\n};\n\nreturn [{ json: { body } }];"
+      }
+    },
+    {
+      "id": "n4",
+      "name": "4. Claude sinh moi",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('2. Cau hinh').first().json.ANTHROPIC_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 300000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "={{ $('2. Cau hinh').first().json.ANTHROPIC_VERSION }}"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cred-anthropic",
+          "name": "Anthropic x-api-key"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Credential Header Auth: Name = x-api-key, Value = sk-ant-... (API key Anthropic)",
+      "notesInFlow": true
+    },
+    {
+      "id": "n5",
+      "name": "5. Boc tach JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Bóc JSON Claude trả về + dựng HTML cho ebook (theo màu thương hiệu thunhap.vn).\nconst cfg = $('2. Cau hinh').first().json;\nconst r = $input.first().json;\n\nlet txt = '';\nfor (const b of (r.content || [])) { if (b.type === 'text') txt += b.text; }\ntxt = (txt || '').trim().replace(/^```(json)?/i, '').replace(/```$/,'').trim();\n\nlet data;\ntry { data = JSON.parse(txt); }\ncatch (e) { throw new Error('Claude khong tra ve JSON hop le. Raw: ' + txt.slice(0, 400)); }\n\nfunction esc(s){ return String(s==null?'':s)\n  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }\nfunction inline(s){ return esc(s).replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>'); }\nfunction mdToHtml(md){\n  const lines = String(md||'').split(/\\r?\\n/); let html=''; let ul=false;\n  for (const raw of lines){ const line = raw.trim();\n    if(!line){ if(ul){html+='</ul>';ul=false;} continue; }\n    if(/^- /.test(line)){ if(!ul){html+='<ul>';ul=true;} html+='<li>'+inline(line.slice(2))+'</li>'; continue; }\n    if(/^### /.test(line)){ if(ul){html+='</ul>';ul=false;} html+='<h3>'+inline(line.slice(4))+'</h3>'; continue; }\n    if(/^## /.test(line)){ if(ul){html+='</ul>';ul=false;} html+='<h2>'+inline(line.slice(3))+'</h2>'; continue; }\n    if(ul){html+='</ul>';ul=false;}\n    html += '<p>'+inline(line)+'</p>';\n  }\n  if(ul) html+='</ul>';\n  return html;\n}\n\nconst eb = data.ebook;\nconst chapters = (eb.chuong||[]).map((c,i) =>\n  '<section class=\"ch\"><h2><span class=\"num\">'+(i+1)+'</span>'+esc(c.tieu_de)+'</h2>'\n  + mdToHtml(c.noi_dung_md) + '</section>').join('\\n');\n\nconst ebook_html =\n'<!doctype html><html lang=\"vi\"><head><meta charset=\"utf-8\">'\n+ '<style>'\n+ '*{box-sizing:border-box;font-family:\"DM Sans\",Arial,Helvetica,sans-serif}'\n+ 'body{margin:0;color:'+cfg.c_ink+';background:'+cfg.c_cream+'}'\n+ '.cover{background:'+cfg.c_forest+';color:'+cfg.c_cream+';padding:90px 64px;}'\n+ '.cover .badge{display:inline-block;background:'+cfg.c_sun+';color:'+cfg.c_ink+';font-weight:800;padding:6px 14px;border-radius:999px;font-size:14px;letter-spacing:.5px}'\n+ '.cover h1{font-size:46px;line-height:1.1;margin:22px 0 10px;font-weight:900}'\n+ '.cover h2{font-size:22px;font-weight:600;color:'+cfg.c_sun+';margin:0 0 22px}'\n+ '.cover p{font-size:18px;max-width:640px;opacity:.95}'\n+ '.cover .brand{margin-top:40px;font-weight:700;opacity:.9}'\n+ '.wrap{padding:54px 64px}'\n+ '.ch{margin-bottom:30px;page-break-inside:avoid}'\n+ '.ch h2{color:'+cfg.c_forest+';font-size:26px;display:flex;align-items:center;gap:12px}'\n+ '.ch h2 .num{background:'+cfg.c_coral+';color:#fff;width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:18px}'\n+ '.ch h3{color:'+cfg.c_coral+';font-size:18px;margin:14px 0 6px}'\n+ '.ch p{font-size:15px;line-height:1.7;margin:8px 0}'\n+ '.ch li{font-size:15px;line-height:1.7}'\n+ '.cta{background:'+cfg.c_coral+';color:#fff;padding:34px 64px;font-size:20px;font-weight:800;text-align:center}'\n+ '.cta a{color:'+cfg.c_sun+'}'\n+ '</style></head><body>'\n+ '<div class=\"cover\"><span class=\"badge\">'+esc(cfg.brand)+'</span>'\n+ '<h1>'+esc(eb.tieu_de)+'</h1><h2>'+esc(eb.phu_de)+'</h2>'\n+ '<p>'+esc(eb.loi_hua_trang_bia)+'</p><div class=\"brand\">'+esc(cfg.brand)+' • '+esc(cfg.funnel_url)+'</div></div>'\n+ '<div class=\"wrap\">'+chapters+'</div>'\n+ '<div class=\"cta\">'+inline(eb.cta)+'<br><a href=\"'+esc(cfg.funnel_url)+'\">'+esc(cfg.funnel_url)+'</a></div>'\n+ '</body></html>';\n\nreturn [{ json: Object.assign({}, data, { ebook_html }) }];"
+      }
+    },
+    {
+      "id": "n6",
+      "name": "6. Render Ebook PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('2. Cau hinh').first().json.PDF_ENDPOINT }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ body: $json.ebook_html, css: '', settings: { paper_size: 'A4', orientation: '1', margin_top: '12', margin_bottom: '12' } }) }}",
+        "options": {
+          "timeout": 180000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cred-render",
+          "name": "Render API (X-API-KEY)"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Mac dinh = APITemplate.io (create-pdf-from-html). Credential Header Auth: Name = X-API-KEY, Value = API key APITemplate. Doi PDF_ENDPOINT o node Cau hinh neu dung nha cung cap khac.",
+      "notesInFlow": true
+    },
+    {
+      "id": "n6b",
+      "name": "6b. Gom du lieu",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Gắn link PDF ebook trở lại gói dữ liệu (vì node HTTP đã thay $json).\nconst pkg = $('5. Boc tach JSON').first().json;\nconst pdf = $input.first().json || {};\nconst ebook_pdf_url =\n  pdf.download_url || pdf.url ||\n  (pdf.data && (pdf.data.download_url || pdf.data.url)) || '';\nreturn [{ json: Object.assign({}, pkg, { ebook_pdf_url }) }];"
+      }
+    },
+    {
+      "id": "n7",
+      "name": "7. Tach slide carousel",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        300
+      ],
+      "parameters": {
+        "fieldToSplitOut": "carousel.slides",
+        "include": "allOtherFields",
+        "options": {}
+      }
+    },
+    {
+      "id": "n7b",
+      "name": "7b. Dung HTML slide",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Với mỗi slide -> tạo HTML/CSS khung 1080x1080 để render thành ảnh.\nconst cfg = $('2. Cau hinh').first().json;\nfunction esc(s){ return String(s==null?'':s)\n  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }\n\nreturn $input.all().map(it => {\n  const s = it.json;\n  const isFirst = Number(s.so_thu_tu) === 1;\n  const css =\n    'body{margin:0}'\n  + '.slide{width:1080px;height:1080px;box-sizing:border-box;padding:90px;'\n  +   'background:' + (isFirst ? cfg.c_coral : cfg.c_cream) + ';'\n  +   'color:' + (isFirst ? '#ffffff' : cfg.c_ink) + ';'\n  +   'font-family:\"DM Sans\",Arial,sans-serif;display:flex;flex-direction:column;justify-content:center;position:relative}'\n  + '.tag{position:absolute;top:70px;left:90px;font-weight:800;letter-spacing:1px;'\n  +   'background:' + (isFirst ? cfg.c_sun : cfg.c_forest) + ';color:' + (isFirst ? cfg.c_ink : '#fff') + ';padding:10px 22px;border-radius:999px;font-size:26px}'\n  + '.no{position:absolute;top:70px;right:90px;font-size:30px;font-weight:800;opacity:.7}'\n  + '.h{font-size:' + (isFirst ? '88px' : '64px') + ';font-weight:900;line-height:1.05;margin:0 0 28px}'\n  + '.b{font-size:40px;line-height:1.45;font-weight:500;max-width:880px}'\n  + '.foot{position:absolute;bottom:70px;left:90px;font-weight:700;font-size:28px;'\n  +   'color:' + (isFirst ? '#fff' : cfg.c_coral) + '}';\n  const html =\n    '<div class=\"slide\"><span class=\"tag\">' + esc(cfg.brand) + '</span>'\n  + '<span class=\"no\">' + esc(s.so_thu_tu) + '/' + ($input.all().length) + '</span>'\n  + '<div class=\"h\">' + esc(s.tieu_de) + '</div>'\n  + '<div class=\"b\">' + esc(s.noi_dung) + '</div>'\n  + '<div class=\"foot\">' + esc(cfg.funnel_url) + '</div></div>';\n  return { json: Object.assign({}, s, { slide_html: html, slide_css: css }) };\n});"
+      }
+    },
+    {
+      "id": "n8",
+      "name": "8. Slide to anh",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1620,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('2. Cau hinh').first().json.IMAGE_ENDPOINT }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ html: $json.slide_html, css: $json.slide_css, google_fonts: 'DM Sans', viewport_width: 1080, viewport_height: 1080 }) }}",
+        "options": {
+          "timeout": 120000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth"
+      },
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "cred-hcti",
+          "name": "Image API (hcti.io)"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Mac dinh = htmlcsstoimage.com. Credential Basic Auth: User = User ID, Password = API key. Tra ve { url }.",
+      "notesInFlow": true
+    },
+    {
+      "id": "n9",
+      "name": "9. Gom anh",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        300
+      ],
+      "parameters": {
+        "aggregate": "aggregateIndividualFields",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "url",
+              "renameField": true,
+              "outputFieldName": "image_urls"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "n10",
+      "name": "10. Build phan phoi",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2060,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Lắp payload cho: (a) đăng feed đa kênh, (b) Salekit audience, (c) Salekit nurture/up-sell.\nconst cfg = $('2. Cau hinh').first().json;\nconst pkg = $('5. Boc tach JSON').first().json;\nconst ebook_pdf_url = ($('6b. Gom du lieu').first().json.ebook_pdf_url) || '';\nconst image_urls = ($input.first().json.image_urls) || [];\n\nconst car = pkg.carousel || {};\nconst meta = pkg.meta || {};\nconst hashtags = (car.hashtags || []).join(' ');\nconst caption = (car.caption || '') + '\\n\\n👉 Tải ấn phẩm miễn phí: ' + cfg.funnel_url + '\\n\\n' + hashtags;\n\n// (a) Publisher hợp nhất (mặc định Ayrshare): đăng carousel ảnh lên feed các kênh.\nconst ayrshare = {\n  post: caption,\n  platforms: cfg.CHANNELS_FEED,\n  mediaUrls: image_urls\n};\n\n// (b) Salekit — tạo/cập nhật audience + gắn tag chiến dịch (kích hoạt automation chăm sóc).\nconst tag = ('leadmagnet:' + (pkg.ebook && pkg.ebook.tieu_de ? pkg.ebook.tieu_de : cfg.chu_de)).slice(0, 60);\nconst salekit_audience = {\n  full_name: cfg.test_lead_name,\n  email: cfg.test_lead_email,\n  phone: cfg.test_lead_phone,\n  tag: tag\n};\n\n// (c) Salekit — gửi mồi + mở đường up-sell qua Email/ZNS (đổi endpoint/body theo tài liệu Salekit của bạn).\nconst noi_dung_email =\n  'Chào bạn,\\n\\nCảm ơn bạn đã quan tâm tới \"' + (pkg.ebook ? pkg.ebook.tieu_de : '') + '\".\\n'\n  + 'Tải ấn phẩm tại đây: ' + (ebook_pdf_url || cfg.funnel_url) + '\\n\\n'\n  + (meta.cau_noi_upsell || '') + '\\n'\n  + 'Tìm hiểu thêm: ' + cfg.funnel_url + '\\n\\n— ' + cfg.brand;\nconst salekit_email = {\n  to: cfg.test_lead_email,\n  subject: (pkg.ebook ? pkg.ebook.tieu_de : 'Quà tặng từ ' + cfg.brand),\n  content: noi_dung_email\n};\n\nreturn [{ json: {\n  ayrshare,\n  salekit_audience,\n  salekit_email,\n  ebook_pdf_url,\n  image_urls,\n  caption_kenh: pkg.caption_kenh || {}\n} }];"
+      }
+    },
+    {
+      "id": "n11",
+      "name": "11. Dang da kenh (Publisher)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2280,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('2. Cau hinh').first().json.PUBLISHER_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.ayrshare) }}",
+        "options": {
+          "timeout": 180000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cred-publisher",
+          "name": "Publisher Bearer (Ayrshare)"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Mac dinh = Ayrshare (dang feed FB/IG/TikTok/Threads). Credential Header Auth: Name = Authorization, Value = Bearer <API key>. Zalo OA do Salekit lo (node 13).",
+      "notesInFlow": true
+    },
+    {
+      "id": "n12",
+      "name": "12. Salekit - Audience",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2500,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('2. Cau hinh').first().json.SALEKIT_BASE }}/audience/create",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($('10. Build phan phoi').first().json.salekit_audience) }}",
+        "options": {
+          "timeout": 60000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cred-salekit",
+          "name": "Salekit Token"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Salekit Audience API. Credential Header Auth: Name = Token, Value = JWT token Salekit (Cau hinh > API). Tao/cap nhat lead + gan tag de kich hoat automation cham soc.",
+      "notesInFlow": true
+    },
+    {
+      "id": "n13",
+      "name": "13. Salekit - Email/ZNS nurture",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2720,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('2. Cau hinh').first().json.SALEKIT_BASE }}/send/email",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($('10. Build phan phoi').first().json.salekit_email) }}",
+        "options": {
+          "timeout": 60000
+        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cred-salekit",
+          "name": "Salekit Token"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "TEMPLATE: xac nhan URL + body theo tai lieu Salekit (send-email-api / api-gui-tin-nhan-zns-qua-zalooa). Giao moi + mo duong up-sell tren kenh so huu.",
+      "notesInFlow": true
+    }
+  ],
+  "connections": {
+    "1. Form chu de & avatar": {
+      "main": [
+        [
+          {
+            "node": "2. Cau hinh",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Cau hinh": {
+      "main": [
+        [
+          {
+            "node": "3. Build prompt Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Build prompt Claude": {
+      "main": [
+        [
+          {
+            "node": "4. Claude sinh moi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Claude sinh moi": {
+      "main": [
+        [
+          {
+            "node": "5. Boc tach JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Boc tach JSON": {
+      "main": [
+        [
+          {
+            "node": "6. Render Ebook PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6. Render Ebook PDF": {
+      "main": [
+        [
+          {
+            "node": "6b. Gom du lieu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6b. Gom du lieu": {
+      "main": [
+        [
+          {
+            "node": "7. Tach slide carousel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7. Tach slide carousel": {
+      "main": [
+        [
+          {
+            "node": "7b. Dung HTML slide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7b. Dung HTML slide": {
+      "main": [
+        [
+          {
+            "node": "8. Slide to anh",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8. Slide to anh": {
+      "main": [
+        [
+          {
+            "node": "9. Gom anh",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "9. Gom anh": {
+      "main": [
+        [
+          {
+            "node": "10. Build phan phoi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10. Build phan phoi": {
+      "main": [
+        [
+          {
+            "node": "11. Dang da kenh (Publisher)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11. Dang da kenh (Publisher)": {
+      "main": [
+        [
+          {
+            "node": "12. Salekit - Audience",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "12. Salekit - Audience": {
+      "main": [
+        [
+          {
+            "node": "13. Salekit - Email/ZNS nurture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}
